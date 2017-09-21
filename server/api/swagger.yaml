@@ -25,6 +25,7 @@ tags:
   description: "Miscellaneous"
 schemes:
 - "https"
+- "http"
 consumes:
 - "application/x-www-form-urlencoded"
 produces:
