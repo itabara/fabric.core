@@ -6,9 +6,6 @@ info:
   title: "Wish Fabric Api - Middleware to Fabric"
   contact:
     email: "you@your-company.com"
-  license:
-    name: "Apache 2.0"
-    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
 host: "fabric-core.heg-development.com"
 tags:
 - name: "HostingAccount"
