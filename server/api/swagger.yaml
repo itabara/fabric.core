@@ -19,7 +19,7 @@ schemes:
 - "https"
 - "http"
 consumes:
-- "application/x-www-form-urlencoded"
+- "application/json"
 produces:
 - "application/json"
 paths:
@@ -31,40 +31,11 @@ paths:
       description: "This will create a hosting account instance.\n"
       operationId: "provisioningHostingPOST"
       parameters:
-      - name: "hosting_name"
-        in: "formData"
-        description: "Hosting account (primary domain)"
-        required: true
-        type: "string"
-      - name: "disk_quota"
-        in: "formData"
-        description: "Webspace quota in MB (0 for unlimited)"
-        required: true
-        type: "integer"
-        format: "int32"
-      - name: "ftp_quota"
-        in: "formData"
-        description: "Max number of FTP users (0 for unlimited)"
-        required: true
-        type: "integer"
-        format: "int32"
-      - name: "bandwidth_quota"
-        in: "formData"
-        description: "Bandwidth quota (0 for unlimited)"
+      - in: "body"
+        name: "hosting"
         required: false
-        type: "integer"
-        format: "int32"
-      - name: "hosting_admin_email"
-        in: "formData"
-        description: "primary username (eg:admin@hosting)"
-        required: false
-        type: "string"
-        default: "admin"
-      - name: "region"
-        in: "formData"
-        description: "Allow region of provisioning"
-        required: false
-        type: "string"
+        schema:
+          $ref: "#/definitions/hosting"
       responses:
         200:
           description: "FabricTask details"
@@ -1405,3 +1376,25 @@ definitions:
         type: "string"
       fields:
         type: "string"
+  hosting:
+    type: "object"
+    properties:
+      hosting_name:
+        type: "string"
+      disk_quota:
+        type: "integer"
+        format: "int32"
+      ftp_quota:
+        type: "integer"
+        format: "int32"
+      bandwitdh_quota:
+        type: "integer"
+        format: "int32"
+        description: "Bandwidth quota (0 for unlimited)"
+      hosting_admin_email:
+        type: "string"
+        description: "primary username (eg:admin@hosting)"
+        default: "admin"
+      region:
+        type: "string"
+        description: "Allow region of provisioning"

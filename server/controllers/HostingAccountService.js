@@ -151,12 +151,7 @@ exports.provisioningHostingHosting_nameStatusPUT = function(args, res, next) {
 exports.provisioningHostingPOST = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * hosting_name (String)
-  * disk_quota (Integer)
-  * ftp_quota (Integer)
-  * bandwidth_quota (Integer)
-  * hosting_admin_email (String)
-  * region (String)
+  * hosting (Hosting)
   **/
     var examples = {};
   examples['application/json'] = {
