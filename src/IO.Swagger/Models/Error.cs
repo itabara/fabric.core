@@ -1,7 +1,7 @@
 /*
- * Wish Fabric Api - Middleware to Fabric
+ * Wish Fabric.Core Api - Middleware to Fabric.Core
  *
- * Wish Fabric API
+ * Wish Fabric.Core API
  *
  * OpenAPI spec version: 1.0.0
  * Contact: you@your-company.com
@@ -44,7 +44,7 @@ namespace IO.Swagger.Models
         /// <param name="Code">Code (required).</param>
         /// <param name="Message">Message (required).</param>
         /// <param name="Description">Description.</param>
-        public Error(decimal? Code = null, string Message = null, Object Description = null)
+        public Error(decimal? Code = null, string Message = null, string Description = null)
         {
             // to ensure "Code" is required (not null)
             if (Code == null)
@@ -84,7 +84,7 @@ namespace IO.Swagger.Models
         /// Gets or Sets Description
         /// </summary>
         [DataMember(Name="description")]
-        public Object Description { get; set; }
+        public string Description { get; set; }
 
 
         /// <summary>

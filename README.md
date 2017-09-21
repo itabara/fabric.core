@@ -1,6 +1,6 @@
 # IO.Swagger - ASP.NET Core 1.0 Server
 
-Wish Fabric API
+Wish Fabric.Core API
 
 ## Run
 

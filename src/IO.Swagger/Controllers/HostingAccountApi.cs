@@ -1,7 +1,7 @@
 /*
- * Wish Fabric Api - Middleware to Fabric
+ * Wish Fabric.Core Api - Middleware to Fabric.Core
  *
- * Wish Fabric API
+ * Wish Fabric.Core API
  *
  * OpenAPI spec version: 1.0.0
  * Contact: you@your-company.com
@@ -47,8 +47,9 @@ namespace IO.Swagger.Controllers
         /// <remarks>This will search for an active provision engine and launch a task to provision a hosting account with specified parameters.</remarks>
         /// <param name="authorization">Access token</param>
         /// <param name="hostingAccount">The hosting account details with package quotas.</param>
-        /// <response code="202">Request is accepted and a FabricTask is returned</response>
+        /// <response code="202">Request is accepted and FabricTask is returned</response>
         /// <response code="400">Invalid input, object invalid</response>
+        /// <response code="401">Invalid authorization token</response>
         /// <response code="409">An existing &#39;hosting_name&#39; already exists</response>
         /// <response code="0">Unexpected error</response>
         [HttpPost]
@@ -56,6 +57,80 @@ namespace IO.Swagger.Controllers
         [SwaggerOperation("CreateHosting")]
         [SwaggerResponse(200, type: typeof(FabricTask))]
         public virtual IActionResult CreateHosting([FromHeader]string authorization, [FromBody]HostingAccount hostingAccount)
+        { 
+            string exampleJson = null;
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<FabricTask>(exampleJson)
+            : default(FabricTask);
+            return new ObjectResult(example);
+        }
+
+
+        /// <summary>
+        /// Retrieve hosting account details
+        /// </summary>
+        /// <remarks>Retrives hosting account details </remarks>
+        /// <param name="authorization">Access token</param>
+        /// <param name="hostingName">hosting account (primary domain)</param>
+        /// <response code="200">HostingAccount details</response>
+        /// <response code="401">Invalid authorization token</response>
+        /// <response code="404">Failed to get hosting account</response>
+        [HttpGet]
+        [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting/{hosting_name}")]
+        [SwaggerOperation("GetHosting")]
+        [SwaggerResponse(200, type: typeof(HostingAccount))]
+        public virtual IActionResult GetHosting([FromHeader]string authorization, [FromRoute]string hostingName)
+        { 
+            string exampleJson = null;
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<HostingAccount>(exampleJson)
+            : default(HostingAccount);
+            return new ObjectResult(example);
+        }
+
+
+        /// <summary>
+        /// Delete hosting account
+        /// </summary>
+        /// <remarks>This will remove the hosting account. </remarks>
+        /// <param name="hostingName">hosting account name (primary domain)</param>
+        /// <param name="authorization">Access token</param>
+        /// <response code="202">FabricTask task details</response>
+        /// <response code="401">Invalid authorization token</response>
+        /// <response code="404">Failed to get hosting account</response>
+        /// <response code="0">Unexpected error</response>
+        [HttpDelete]
+        [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting/{hosting_name}")]
+        [SwaggerOperation("ProvisioningHostingHostingNameDelete")]
+        [SwaggerResponse(200, type: typeof(FabricTask))]
+        public virtual IActionResult ProvisioningHostingHostingNameDelete([FromRoute]string hostingName, [FromHeader]string authorization)
+        { 
+            string exampleJson = null;
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<FabricTask>(exampleJson)
+            : default(FabricTask);
+            return new ObjectResult(example);
+        }
+
+
+        /// <summary>
+        /// Allow disk quotas change. Potentially to be used to move HostingAccount to another cluster.
+        /// </summary>
+        
+        /// <param name="authorization">Access token</param>
+        /// <param name="hostingAccount">The hosting account details with package quotas.</param>
+        /// <response code="202">FabricTask task details</response>
+        /// <response code="401">Invalid authorization token</response>
+        /// <response code="404">Failed to get hosting account</response>
+        /// <response code="0">Unexpected error</response>
+        [HttpPut]
+        [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting/{hosting_name}")]
+        [SwaggerOperation("ProvisioningHostingHostingNamePut")]
+        [SwaggerResponse(200, type: typeof(FabricTask))]
+        public virtual IActionResult ProvisioningHostingHostingNamePut([FromHeader]string authorization, [FromBody]HostingAccount1 hostingAccount)
         { 
             string exampleJson = null;
             

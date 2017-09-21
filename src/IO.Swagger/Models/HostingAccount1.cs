@@ -36,94 +36,27 @@ namespace IO.Swagger.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class HostingAccount :  IEquatable<HostingAccount>
+    public partial class HostingAccount1 :  IEquatable<HostingAccount1>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="HostingAccount" /> class.
+        /// Initializes a new instance of the <see cref="HostingAccount1" /> class.
         /// </summary>
-        /// <param name="HostingName">hosting account (primary domain) (required).</param>
-        /// <param name="HostingAdminEmail">admin email for hosting account (required).</param>
-        /// <param name="DiskQuota">webspace quota MB (0&#x3D;unlimited) (required).</param>
-        /// <param name="FtpQuota">max number of FTP users (0&#x3D;unlimited) (required).</param>
-        /// <param name="BandwidthQuota">bandwidth quota MB (0&#x3D;unlimited) (required).</param>
-        /// <param name="DbQuota">max number of databases (0&#x3D;unlimited) (required).</param>
-        /// <param name="DbMaxSize">max database file size (MB) (required).</param>
-        /// <param name="Region">optional, specify the region of provisioning (datacenter).</param>
-        public HostingAccount(string HostingName = null, string HostingAdminEmail = null, long? DiskQuota = null, int? FtpQuota = null, long? BandwidthQuota = null, int? DbQuota = null, long? DbMaxSize = null, string Region = null)
+        /// <param name="HostingAdminEmail">admin email for hosting account.</param>
+        /// <param name="DiskQuota">webspace quota MB (0&#x3D;unlimited).</param>
+        /// <param name="FtpQuota">max number of FTP users (0&#x3D;unlimited).</param>
+        /// <param name="BandwidthQuota">bandwidth quota MB (0&#x3D;unlimited).</param>
+        /// <param name="DbQuota">max number of databases (0&#x3D;unlimited).</param>
+        /// <param name="DbMaxSize">max database file size (MB).</param>
+        public HostingAccount1(string HostingAdminEmail = null, long? DiskQuota = null, int? FtpQuota = null, long? BandwidthQuota = null, int? DbQuota = null, long? DbMaxSize = null)
         {
-            // to ensure "HostingName" is required (not null)
-            if (HostingName == null)
-            {
-                throw new InvalidDataException("HostingName is a required property for HostingAccount and cannot be null");
-            }
-            else
-            {
-                this.HostingName = HostingName;
-            }
-            // to ensure "HostingAdminEmail" is required (not null)
-            if (HostingAdminEmail == null)
-            {
-                throw new InvalidDataException("HostingAdminEmail is a required property for HostingAccount and cannot be null");
-            }
-            else
-            {
-                this.HostingAdminEmail = HostingAdminEmail;
-            }
-            // to ensure "DiskQuota" is required (not null)
-            if (DiskQuota == null)
-            {
-                throw new InvalidDataException("DiskQuota is a required property for HostingAccount and cannot be null");
-            }
-            else
-            {
-                this.DiskQuota = DiskQuota;
-            }
-            // to ensure "FtpQuota" is required (not null)
-            if (FtpQuota == null)
-            {
-                throw new InvalidDataException("FtpQuota is a required property for HostingAccount and cannot be null");
-            }
-            else
-            {
-                this.FtpQuota = FtpQuota;
-            }
-            // to ensure "BandwidthQuota" is required (not null)
-            if (BandwidthQuota == null)
-            {
-                throw new InvalidDataException("BandwidthQuota is a required property for HostingAccount and cannot be null");
-            }
-            else
-            {
-                this.BandwidthQuota = BandwidthQuota;
-            }
-            // to ensure "DbQuota" is required (not null)
-            if (DbQuota == null)
-            {
-                throw new InvalidDataException("DbQuota is a required property for HostingAccount and cannot be null");
-            }
-            else
-            {
-                this.DbQuota = DbQuota;
-            }
-            // to ensure "DbMaxSize" is required (not null)
-            if (DbMaxSize == null)
-            {
-                throw new InvalidDataException("DbMaxSize is a required property for HostingAccount and cannot be null");
-            }
-            else
-            {
-                this.DbMaxSize = DbMaxSize;
-            }
-            this.Region = Region;
+            this.HostingAdminEmail = HostingAdminEmail;
+            this.DiskQuota = DiskQuota;
+            this.FtpQuota = FtpQuota;
+            this.BandwidthQuota = BandwidthQuota;
+            this.DbQuota = DbQuota;
+            this.DbMaxSize = DbMaxSize;
             
         }
-
-        /// <summary>
-        /// hosting account (primary domain)
-        /// </summary>
-        /// <value>hosting account (primary domain)</value>
-        [DataMember(Name="hosting_name")]
-        public string HostingName { get; set; }
 
         /// <summary>
         /// admin email for hosting account
@@ -167,13 +100,6 @@ namespace IO.Swagger.Models
         [DataMember(Name="db_max_size")]
         public long? DbMaxSize { get; set; }
 
-        /// <summary>
-        /// optional, specify the region of provisioning (datacenter)
-        /// </summary>
-        /// <value>optional, specify the region of provisioning (datacenter)</value>
-        [DataMember(Name="region")]
-        public string Region { get; set; }
-
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -182,15 +108,13 @@ namespace IO.Swagger.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class HostingAccount {\n");
-            sb.Append("  HostingName: ").Append(HostingName).Append("\n");
+            sb.Append("class HostingAccount1 {\n");
             sb.Append("  HostingAdminEmail: ").Append(HostingAdminEmail).Append("\n");
             sb.Append("  DiskQuota: ").Append(DiskQuota).Append("\n");
             sb.Append("  FtpQuota: ").Append(FtpQuota).Append("\n");
             sb.Append("  BandwidthQuota: ").Append(BandwidthQuota).Append("\n");
             sb.Append("  DbQuota: ").Append(DbQuota).Append("\n");
             sb.Append("  DbMaxSize: ").Append(DbMaxSize).Append("\n");
-            sb.Append("  Region: ").Append(Region).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -214,26 +138,21 @@ namespace IO.Swagger.Models
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((HostingAccount)obj);
+            return Equals((HostingAccount1)obj);
         }
 
         /// <summary>
-        /// Returns true if HostingAccount instances are equal
+        /// Returns true if HostingAccount1 instances are equal
         /// </summary>
-        /// <param name="other">Instance of HostingAccount to be compared</param>
+        /// <param name="other">Instance of HostingAccount1 to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(HostingAccount other)
+        public bool Equals(HostingAccount1 other)
         {
 
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
 
             return 
-                (
-                    this.HostingName == other.HostingName ||
-                    this.HostingName != null &&
-                    this.HostingName.Equals(other.HostingName)
-                ) && 
                 (
                     this.HostingAdminEmail == other.HostingAdminEmail ||
                     this.HostingAdminEmail != null &&
@@ -263,11 +182,6 @@ namespace IO.Swagger.Models
                     this.DbMaxSize == other.DbMaxSize ||
                     this.DbMaxSize != null &&
                     this.DbMaxSize.Equals(other.DbMaxSize)
-                ) && 
-                (
-                    this.Region == other.Region ||
-                    this.Region != null &&
-                    this.Region.Equals(other.Region)
                 );
         }
 
@@ -282,8 +196,6 @@ namespace IO.Swagger.Models
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
-                if (this.HostingName != null)
-                    hash = hash * 59 + this.HostingName.GetHashCode();
                 if (this.HostingAdminEmail != null)
                     hash = hash * 59 + this.HostingAdminEmail.GetHashCode();
                 if (this.DiskQuota != null)
@@ -296,20 +208,18 @@ namespace IO.Swagger.Models
                     hash = hash * 59 + this.DbQuota.GetHashCode();
                 if (this.DbMaxSize != null)
                     hash = hash * 59 + this.DbMaxSize.GetHashCode();
-                if (this.Region != null)
-                    hash = hash * 59 + this.Region.GetHashCode();
                 return hash;
             }
         }
 
         #region Operators
 
-        public static bool operator ==(HostingAccount left, HostingAccount right)
+        public static bool operator ==(HostingAccount1 left, HostingAccount1 right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(HostingAccount left, HostingAccount right)
+        public static bool operator !=(HostingAccount1 left, HostingAccount1 right)
         {
             return !Equals(left, right);
         }

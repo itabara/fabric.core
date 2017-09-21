@@ -1,7 +1,7 @@
 /*
- * Wish Fabric Api - Middleware to Fabric
+ * Wish Fabric.Core Api - Middleware to Fabric.Core
  *
- * Wish Fabric API
+ * Wish Fabric.Core API
  *
  * OpenAPI spec version: 1.0.0
  * Contact: you@your-company.com
