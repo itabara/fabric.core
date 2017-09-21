@@ -28,7 +28,7 @@ paths:
       tags:
       - "HostingAccount"
       summary: "Provision a hosting account instance"
-      description: "This will create a hosting account instance.\n"
+      description: "This will create a hosting account instance."
       operationId: "provisioningHostingPOST"
       parameters:
       - in: "body"
@@ -1381,9 +1381,11 @@ definitions:
     properties:
       hosting_name:
         type: "string"
+        description: "Hosting account (primary domain)"
       disk_quota:
         type: "integer"
         format: "int32"
+        description: "Webspace quota in MB (0 for unlimited)"
       ftp_quota:
         type: "integer"
         format: "int32"
