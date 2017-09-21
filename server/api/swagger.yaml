@@ -1172,6 +1172,8 @@ paths:
       x-swagger-router-controller: "Misc"
   /ping:
     get:
+      tags:
+      - "HealthCheck"
       summary: "Server heartbeat operation"
       description: "Server heartbeat operation"
       operationId: "pingGET"
@@ -1179,7 +1181,7 @@ paths:
       responses:
         200:
           description: "OK"
-      x-swagger-router-controller: "Default"
+      x-swagger-router-controller: "HealthCheck"
 definitions:
   FabricTask:
     type: "object"
