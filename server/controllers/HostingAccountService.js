@@ -151,7 +151,7 @@ exports.provisioningHostingHosting_nameStatusPUT = function(args, res, next) {
 exports.provisioningHostingPOST = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * payload (Payload)
+  * payload (HostingAccount)
   **/
     var examples = {};
   examples['application/json'] = {

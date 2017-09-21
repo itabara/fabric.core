@@ -35,7 +35,7 @@ paths:
         name: "payload"
         required: false
         schema:
-          $ref: "#/definitions/payload"
+          $ref: "#/definitions/HostingAccount"
       responses:
         200:
           description: "FabricTask details"
@@ -1207,6 +1207,14 @@ definitions:
       stats_json_url:
         type: "string"
         description: "json endpoint to for chart data"
+  HostingAccount:
+    allOf:
+    - $ref: "#/definitions/HostingAccountInfo"
+    - properties:
+        hosting_admin_email:
+          type: "string"
+        region:
+          type: "string"
   QuotaInfo:
     type: "object"
     properties:
@@ -1376,27 +1384,3 @@ definitions:
         type: "string"
       fields:
         type: "string"
-  payload:
-    type: "object"
-    properties:
-      hosting_name:
-        type: "string"
-        description: "Hosting account (primary domain)"
-      disk_quota:
-        type: "integer"
-        format: "int32"
-        description: "Webspace quota in MB (0 for unlimited)"
-      ftp_quota:
-        type: "integer"
-        format: "int32"
-      bandwitdh_quota:
-        type: "integer"
-        format: "int32"
-        description: "Bandwidth quota (0 for unlimited)"
-      hosting_admin_email:
-        type: "string"
-        description: "primary username (eg:admin@hosting)"
-        default: "admin"
-      region:
-        type: "string"
-        description: "Allow region of provisioning"
