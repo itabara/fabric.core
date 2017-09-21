@@ -32,10 +32,10 @@ paths:
       operationId: "provisioningHostingPOST"
       parameters:
       - in: "body"
-        name: "hosting"
+        name: "payload"
         required: false
         schema:
-          $ref: "#/definitions/hosting"
+          $ref: "#/definitions/payload"
       responses:
         200:
           description: "FabricTask details"
@@ -1376,7 +1376,7 @@ definitions:
         type: "string"
       fields:
         type: "string"
-  hosting:
+  payload:
     type: "object"
     properties:
       hosting_name:
