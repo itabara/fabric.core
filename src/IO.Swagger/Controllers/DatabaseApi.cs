@@ -42,7 +42,7 @@ namespace IO.Swagger.Controllers
     { 
 
         /// <summary>
-        /// Provision a new database on hosting cluster
+        /// Provision a database to the hosting database cluster
         /// </summary>
         /// <remarks>Create a database instance with required parameters. We assume a group of WebClusters will have own database cluster. </remarks>
         /// <param name="authorization">Access token</param>
@@ -123,7 +123,7 @@ namespace IO.Swagger.Controllers
         /// <param name="authorization">Access token</param>
         /// <param name="hostingName">Hosting account (primary domain)</param>
         /// <param name="databaseName">Database name</param>
-        /// <param name="databaseInfo">The database details to be updates.</param>
+        /// <param name="databaseInfo">The database details to be updated</param>
         /// <response code="200">Database details edit</response>
         /// <response code="401">Invalid authorization token</response>
         /// <response code="404">Hosting or database not found</response>
