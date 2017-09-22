@@ -63,9 +63,9 @@ exports.provisioningHostingHosting_nameGET = function(args, res, next) {
   examples['application/json'] = {
   "bandwidth_quota" : "",
   "ftp_quota" : {
-    "consumed" : "",
-    "max_available" : "",
-    "details" : "aeiou"
+    "consumed" : 54,
+    "max_available" : 2000,
+    "details" : "MB. 0 if unlimited"
   },
   "disk_quota" : "",
   "hosting_account_id" : 1234567,

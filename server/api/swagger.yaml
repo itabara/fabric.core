@@ -1098,6 +1098,7 @@ definitions:
       stats_json_url:
         type: "string"
         description: "json endpoint to for chart data"
+        readOnly: true
   HostingAccount:
     allOf:
     - $ref: "#/definitions/HostingAccountInfo"
@@ -1106,17 +1107,37 @@ definitions:
           type: "string"
         region:
           type: "string"
+          example: "GB"
+      example:
+        hosting_account_id: 123456
+        hosting_name: "example.com"
+        ftp_quota:
+          max_available: 20
+          consumed: 0
+        disk_quota:
+          max_available: 10240
+          consumed: 50
+          description: "MB"
+        bandwidth_quota:
+          max_available: 0
+          description: "0=unlimited"
+        stats_json_url: "https://stats.atlas-hosting.com?hosting-name=\"example.com\""
   QuotaInfo:
     type: "object"
     properties:
       max_available:
         type: "integer"
+        format: "int64"
+        example: 2000
         description: "Max quota for X feature"
       consumed:
         type: "integer"
+        format: "int64"
+        example: 54
         description: "Consumed for X feature"
       details:
         type: "string"
+        example: "MB. 0 if unlimited"
         description: "Quota size measure unit (eg. MB)"
   FtpUserInfo:
     type: "object"
