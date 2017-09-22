@@ -1085,6 +1085,7 @@ definitions:
         format: "int64"
         example: 1234567
         description: "Fabric hosting_acount_id (PK)"
+        readOnly: true
       hosting_name:
         type: "string"
         example: "example.com"
