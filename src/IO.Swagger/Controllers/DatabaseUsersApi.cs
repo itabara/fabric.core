@@ -42,6 +42,85 @@ namespace IO.Swagger.Controllers
     { 
 
         /// <summary>
+        /// Delete an existing database user
+        /// </summary>
+        
+        /// <param name="authorization">Access token</param>
+        /// <param name="hostingName">Hosting account (primary domain)</param>
+        /// <param name="dbUsername">User identifier</param>
+        /// <response code="200">Delete an existing database user</response>
+        /// <response code="401">Invalid authorization token</response>
+        /// <response code="404">Hosting or database user not found</response>
+        /// <response code="0">Unexpected error</response>
+        [HttpDelete]
+        [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting/{hosting_name}/database/user/{db_username}")]
+        [SwaggerOperation("ProvisioningHostingHostingNameDatabaseUserDbUsernameDelete")]
+        [SwaggerResponse(200, type: typeof(FabricTask))]
+        public virtual IActionResult ProvisioningHostingHostingNameDatabaseUserDbUsernameDelete([FromHeader]string authorization, [FromRoute]string hostingName, [FromRoute]string dbUsername)
+        { 
+            string exampleJson = null;
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<FabricTask>(exampleJson)
+            : default(FabricTask);
+            return new ObjectResult(example);
+        }
+
+
+        /// <summary>
+        /// Get an existing database user
+        /// </summary>
+        
+        /// <param name="authorization">Access token</param>
+        /// <param name="hostingName">hosting account (primary domain)</param>
+        /// <param name="dbUsername">user identifier</param>
+        /// <response code="200">Get an existing database user</response>
+        /// <response code="401">Invalid authorization token</response>
+        /// <response code="404">Hosting or database user not found</response>
+        /// <response code="0">Unexpected error</response>
+        [HttpGet]
+        [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting/{hosting_name}/database/user/{db_username}")]
+        [SwaggerOperation("ProvisioningHostingHostingNameDatabaseUserDbUsernameGet")]
+        [SwaggerResponse(200, type: typeof(DatabaseUserInfo))]
+        public virtual IActionResult ProvisioningHostingHostingNameDatabaseUserDbUsernameGet([FromHeader]string authorization, [FromRoute]string hostingName, [FromRoute]string dbUsername)
+        { 
+            string exampleJson = null;
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<DatabaseUserInfo>(exampleJson)
+            : default(DatabaseUserInfo);
+            return new ObjectResult(example);
+        }
+
+
+        /// <summary>
+        /// Update an existing database user
+        /// </summary>
+        /// <remarks>Update an existing database user</remarks>
+        /// <param name="authorization">Access token</param>
+        /// <param name="hostingName">Hosting account (primary domain)</param>
+        /// <param name="dbUsername">User identifier</param>
+        /// <param name="userInfo">The database user details</param>
+        /// <response code="200">Update an existing database user</response>
+        /// <response code="401">Invalid authorization token</response>
+        /// <response code="404">Hosting or database user not found</response>
+        /// <response code="0">Unexpected error</response>
+        [HttpPut]
+        [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting/{hosting_name}/database/user/{db_username}")]
+        [SwaggerOperation("ProvisioningHostingHostingNameDatabaseUserDbUsernamePut")]
+        [SwaggerResponse(200, type: typeof(FabricTask))]
+        public virtual IActionResult ProvisioningHostingHostingNameDatabaseUserDbUsernamePut([FromHeader]string authorization, [FromRoute]string hostingName, [FromRoute]string dbUsername, [FromBody]UserInfo1 userInfo)
+        { 
+            string exampleJson = null;
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<FabricTask>(exampleJson)
+            : default(FabricTask);
+            return new ObjectResult(example);
+        }
+
+
+        /// <summary>
         /// Retrieve a list of database users
         /// </summary>
         /// <remarks>Retrieve the list of database users for a hosting account </remarks>
@@ -62,6 +141,33 @@ namespace IO.Swagger.Controllers
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<List<DatabaseUserInfo>>(exampleJson)
             : default(List<DatabaseUserInfo>);
+            return new ObjectResult(example);
+        }
+
+
+        /// <summary>
+        /// Create a database user (user on the database cluster)
+        /// </summary>
+        /// <remarks>Create a new database user </remarks>
+        /// <param name="authorization">Access token</param>
+        /// <param name="hostingName">Hosting account (primary domain)</param>
+        /// <param name="userInfo">The database user details</param>
+        /// <response code="202">Create a database user on cluster with specified grant permissions</response>
+        /// <response code="401">Invalid authorization token</response>
+        /// <response code="404">Hosting not found</response>
+        /// <response code="409">Specified db_username already exists</response>
+        /// <response code="0">Unexpected error</response>
+        [HttpPost]
+        [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting/{hosting_name}/database/users")]
+        [SwaggerOperation("ProvisioningHostingHostingNameDatabaseUsersPost")]
+        [SwaggerResponse(200, type: typeof(FabricTask))]
+        public virtual IActionResult ProvisioningHostingHostingNameDatabaseUsersPost([FromHeader]string authorization, [FromRoute]string hostingName, [FromBody]UserInfo userInfo)
+        { 
+            string exampleJson = null;
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<FabricTask>(exampleJson)
+            : default(FabricTask);
             return new ObjectResult(example);
         }
     }
