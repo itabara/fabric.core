@@ -71,15 +71,18 @@ namespace IO.Swagger.Controllers
         /// Remove database
         /// </summary>
         /// <remarks>It will remove the database and move it to snapshot for 30 days. </remarks>
-        /// <param name="hostingName">hosting account (primary domain)</param>
-        /// <param name="databaseName">Database identifier</param>
-        /// <response code="200">Database delete</response>
+        /// <param name="authorization">Access token</param>
+        /// <param name="hostingName">Hosting account (primary domain)</param>
+        /// <param name="databaseName">Database name</param>
+        /// <response code="202">Database delete</response>
+        /// <response code="401">Invalid authorization token</response>
+        /// <response code="404">Hosting or database not found</response>
         /// <response code="0">Unexpected error</response>
         [HttpDelete]
         [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting/{hosting_name}/database/{database_name}")]
         [SwaggerOperation("ProvisioningHostingHostingNameDatabaseDatabaseNameDelete")]
         [SwaggerResponse(200, type: typeof(FabricTask))]
-        public virtual IActionResult ProvisioningHostingHostingNameDatabaseDatabaseNameDelete([FromRoute]string hostingName, [FromRoute]string databaseName)
+        public virtual IActionResult ProvisioningHostingHostingNameDatabaseDatabaseNameDelete([FromHeader]string authorization, [FromRoute]string hostingName, [FromRoute]string databaseName)
         { 
             string exampleJson = null;
             
@@ -116,17 +119,20 @@ namespace IO.Swagger.Controllers
         /// <summary>
         /// Edit database details
         /// </summary>
-        /// <remarks>Edit database details. Support database id or name \&quot;/provisioning/hosting/{hosting_name}/database/{database_name}\&quot; </remarks>
-        /// <param name="hostingName">hosting account (primary domain)</param>
-        /// <param name="databaseName">database name</param>
-        /// <param name="databaseInfo">Database Provisioning details</param>
-        /// <response code="200">Database edit</response>
+        /// <remarks>Edit database details. </remarks>
+        /// <param name="authorization">Access token</param>
+        /// <param name="hostingName">Hosting account (primary domain)</param>
+        /// <param name="databaseName">Database name</param>
+        /// <param name="databaseInfo">The database details to be updates.</param>
+        /// <response code="200">Database details edit</response>
+        /// <response code="401">Invalid authorization token</response>
+        /// <response code="404">Hosting or database not found</response>
         /// <response code="0">Unexpected error</response>
         [HttpPut]
         [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting/{hosting_name}/database/{database_name}")]
         [SwaggerOperation("ProvisioningHostingHostingNameDatabaseDatabaseNamePut")]
         [SwaggerResponse(200, type: typeof(FabricTask))]
-        public virtual IActionResult ProvisioningHostingHostingNameDatabaseDatabaseNamePut([FromRoute]string hostingName, [FromRoute]string databaseName, [FromBody]DatabaseInfo databaseInfo)
+        public virtual IActionResult ProvisioningHostingHostingNameDatabaseDatabaseNamePut([FromHeader]string authorization, [FromRoute]string hostingName, [FromRoute]string databaseName, [FromBody]DatabaseInfo1 databaseInfo)
         { 
             string exampleJson = null;
             

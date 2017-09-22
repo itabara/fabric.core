@@ -36,48 +36,28 @@ namespace IO.Swagger.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class DatabaseInfo :  IEquatable<DatabaseInfo>
+    public partial class DatabaseInfo1 :  IEquatable<DatabaseInfo1>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DatabaseInfo" /> class.
+        /// Initializes a new instance of the <see cref="DatabaseInfo1" /> class.
         /// </summary>
-        /// <param name="DatabaseName">Database name (required).</param>
-        /// <param name="DbUser">Database username (required).</param>
-        /// <param name="DatabaseType">Database Engine. Default MSSQL ? (required).</param>
+        /// <param name="DbUsers">Array of database users (required).</param>
         /// <param name="DbSize">Max database size (required).</param>
-        public DatabaseInfo(string DatabaseName = null, string DbUser = null, string DatabaseType = null, long? DbSize = null)
+        public DatabaseInfo1(List<string> DbUsers = null, long? DbSize = null)
         {
-            // to ensure "DatabaseName" is required (not null)
-            if (DatabaseName == null)
+            // to ensure "DbUsers" is required (not null)
+            if (DbUsers == null)
             {
-                throw new InvalidDataException("DatabaseName is a required property for DatabaseInfo and cannot be null");
+                throw new InvalidDataException("DbUsers is a required property for DatabaseInfo1 and cannot be null");
             }
             else
             {
-                this.DatabaseName = DatabaseName;
-            }
-            // to ensure "DbUser" is required (not null)
-            if (DbUser == null)
-            {
-                throw new InvalidDataException("DbUser is a required property for DatabaseInfo and cannot be null");
-            }
-            else
-            {
-                this.DbUser = DbUser;
-            }
-            // to ensure "DatabaseType" is required (not null)
-            if (DatabaseType == null)
-            {
-                throw new InvalidDataException("DatabaseType is a required property for DatabaseInfo and cannot be null");
-            }
-            else
-            {
-                this.DatabaseType = DatabaseType;
+                this.DbUsers = DbUsers;
             }
             // to ensure "DbSize" is required (not null)
             if (DbSize == null)
             {
-                throw new InvalidDataException("DbSize is a required property for DatabaseInfo and cannot be null");
+                throw new InvalidDataException("DbSize is a required property for DatabaseInfo1 and cannot be null");
             }
             else
             {
@@ -87,25 +67,11 @@ namespace IO.Swagger.Models
         }
 
         /// <summary>
-        /// Database name
+        /// Array of database users
         /// </summary>
-        /// <value>Database name</value>
-        [DataMember(Name="database_name")]
-        public string DatabaseName { get; set; }
-
-        /// <summary>
-        /// Database username
-        /// </summary>
-        /// <value>Database username</value>
-        [DataMember(Name="db_user")]
-        public string DbUser { get; set; }
-
-        /// <summary>
-        /// Database Engine. Default MSSQL ?
-        /// </summary>
-        /// <value>Database Engine. Default MSSQL ?</value>
-        [DataMember(Name="database_type")]
-        public string DatabaseType { get; set; }
+        /// <value>Array of database users</value>
+        [DataMember(Name="db_users")]
+        public List<string> DbUsers { get; set; }
 
         /// <summary>
         /// Max database size
@@ -122,10 +88,8 @@ namespace IO.Swagger.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class DatabaseInfo {\n");
-            sb.Append("  DatabaseName: ").Append(DatabaseName).Append("\n");
-            sb.Append("  DbUser: ").Append(DbUser).Append("\n");
-            sb.Append("  DatabaseType: ").Append(DatabaseType).Append("\n");
+            sb.Append("class DatabaseInfo1 {\n");
+            sb.Append("  DbUsers: ").Append(DbUsers).Append("\n");
             sb.Append("  DbSize: ").Append(DbSize).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -150,15 +114,15 @@ namespace IO.Swagger.Models
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((DatabaseInfo)obj);
+            return Equals((DatabaseInfo1)obj);
         }
 
         /// <summary>
-        /// Returns true if DatabaseInfo instances are equal
+        /// Returns true if DatabaseInfo1 instances are equal
         /// </summary>
-        /// <param name="other">Instance of DatabaseInfo to be compared</param>
+        /// <param name="other">Instance of DatabaseInfo1 to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(DatabaseInfo other)
+        public bool Equals(DatabaseInfo1 other)
         {
 
             if (ReferenceEquals(null, other)) return false;
@@ -166,19 +130,9 @@ namespace IO.Swagger.Models
 
             return 
                 (
-                    this.DatabaseName == other.DatabaseName ||
-                    this.DatabaseName != null &&
-                    this.DatabaseName.Equals(other.DatabaseName)
-                ) && 
-                (
-                    this.DbUser == other.DbUser ||
-                    this.DbUser != null &&
-                    this.DbUser.Equals(other.DbUser)
-                ) && 
-                (
-                    this.DatabaseType == other.DatabaseType ||
-                    this.DatabaseType != null &&
-                    this.DatabaseType.Equals(other.DatabaseType)
+                    this.DbUsers == other.DbUsers ||
+                    this.DbUsers != null &&
+                    this.DbUsers.SequenceEqual(other.DbUsers)
                 ) && 
                 (
                     this.DbSize == other.DbSize ||
@@ -198,12 +152,8 @@ namespace IO.Swagger.Models
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
-                if (this.DatabaseName != null)
-                    hash = hash * 59 + this.DatabaseName.GetHashCode();
-                if (this.DbUser != null)
-                    hash = hash * 59 + this.DbUser.GetHashCode();
-                if (this.DatabaseType != null)
-                    hash = hash * 59 + this.DatabaseType.GetHashCode();
+                if (this.DbUsers != null)
+                    hash = hash * 59 + this.DbUsers.GetHashCode();
                 if (this.DbSize != null)
                     hash = hash * 59 + this.DbSize.GetHashCode();
                 return hash;
@@ -212,12 +162,12 @@ namespace IO.Swagger.Models
 
         #region Operators
 
-        public static bool operator ==(DatabaseInfo left, DatabaseInfo right)
+        public static bool operator ==(DatabaseInfo1 left, DatabaseInfo1 right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(DatabaseInfo left, DatabaseInfo right)
+        public static bool operator !=(DatabaseInfo1 left, DatabaseInfo1 right)
         {
             return !Equals(left, right);
         }
