@@ -92,6 +92,30 @@ namespace IO.Swagger.Controllers
 
 
         /// <summary>
+        /// Retrive HostingAccount status
+        /// </summary>
+        /// <remarks>Get the status of HostingAccount </remarks>
+        /// <param name="authorization">Access token</param>
+        /// <param name="hostingName">hosting account (primary domain)</param>
+        /// <response code="200">Retrieve HostingAccount status</response>
+        /// <response code="404">Failed to get hosting account</response>
+        /// <response code="0">Unexpected error</response>
+        [HttpGet]
+        [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting/{hosting_name}/status")]
+        [SwaggerOperation("GetHostingStatus")]
+        [SwaggerResponse(200, type: typeof(HostingAccountStatus))]
+        public virtual IActionResult GetHostingStatus([FromHeader]string authorization, [FromRoute]string hostingName)
+        { 
+            string exampleJson = null;
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<HostingAccountStatus>(exampleJson)
+            : default(HostingAccountStatus);
+            return new ObjectResult(example);
+        }
+
+
+        /// <summary>
         /// Delete hosting account
         /// </summary>
         /// <remarks>This will remove the hosting account. </remarks>
@@ -131,6 +155,31 @@ namespace IO.Swagger.Controllers
         [SwaggerOperation("ProvisioningHostingHostingNamePut")]
         [SwaggerResponse(200, type: typeof(FabricTask))]
         public virtual IActionResult ProvisioningHostingHostingNamePut([FromHeader]string authorization, [FromBody]HostingAccount1 hostingAccount)
+        { 
+            string exampleJson = null;
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<FabricTask>(exampleJson)
+            : default(FabricTask);
+            return new ObjectResult(example);
+        }
+
+
+        /// <summary>
+        /// Enable/Disable the HostingAccount
+        /// </summary>
+        /// <remarks>It enable/disable the HostingAccount </remarks>
+        /// <param name="authorization">Access token</param>
+        /// <param name="hostingName">hosting account (primary domain)</param>
+        /// <param name="status">change hosting account status (enable/disable)</param>
+        /// <response code="200">Change HostingAccount status</response>
+        /// <response code="404">Failed to get hosting account</response>
+        /// <response code="0">Unexpected error</response>
+        [HttpPut]
+        [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting/{hosting_name}/status")]
+        [SwaggerOperation("SetHostingStatus")]
+        [SwaggerResponse(200, type: typeof(FabricTask))]
+        public virtual IActionResult SetHostingStatus([FromHeader]string authorization, [FromRoute]string hostingName, [FromBody]HostingAccountStatus status)
         { 
             string exampleJson = null;
             
