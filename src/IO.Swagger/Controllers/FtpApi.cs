@@ -50,7 +50,8 @@ namespace IO.Swagger.Controllers
         /// <param name="ftpUser">The ftp details</param>
         /// <response code="202">FabricTask for FTPUserInfo edit</response>
         /// <response code="401">Invalid authorization token</response>
-        /// <response code="404">Ftp username not found</response>
+        /// <response code="404">Hosting not found</response>
+        /// <response code="409">An existing ftp &#39;username&#39; already exists</response>
         /// <response code="0">Unexpected error</response>
         [HttpPost]
         [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting/{hosting_name}/ftp")]

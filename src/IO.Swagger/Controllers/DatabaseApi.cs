@@ -51,6 +51,7 @@ namespace IO.Swagger.Controllers
         /// <response code="202">Create a database instance</response>
         /// <response code="401">Invalid authorization token</response>
         /// <response code="404">Hosting not found</response>
+        /// <response code="409">An existing database already exists</response>
         /// <response code="0">Unexpected error</response>
         [HttpPost]
         [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting/{hosting_name}/databases")]
@@ -97,15 +98,18 @@ namespace IO.Swagger.Controllers
         /// Query database info
         /// </summary>
         /// <remarks>Retrieve database specific details </remarks>
+        /// <param name="authorization">Access token</param>
         /// <param name="hostingName">hosting account (primary domain)</param>
         /// <param name="databaseName">Database identifier</param>
-        /// <response code="200">Database Info</response>
+        /// <response code="200">Database details</response>
+        /// <response code="401">Invalid authorization token</response>
+        /// <response code="404">Hosting or database not found</response>
         /// <response code="0">Unexpected error</response>
         [HttpGet]
         [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting/{hosting_name}/database/{database_name}")]
         [SwaggerOperation("ProvisioningHostingHostingNameDatabaseDatabaseNameGet")]
         [SwaggerResponse(200, type: typeof(DatabaseInfo))]
-        public virtual IActionResult ProvisioningHostingHostingNameDatabaseDatabaseNameGet([FromRoute]string hostingName, [FromRoute]string databaseName)
+        public virtual IActionResult ProvisioningHostingHostingNameDatabaseDatabaseNameGet([FromHeader]string authorization, [FromRoute]string hostingName, [FromRoute]string databaseName)
         { 
             string exampleJson = null;
             
@@ -132,7 +136,59 @@ namespace IO.Swagger.Controllers
         [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting/{hosting_name}/database/{database_name}")]
         [SwaggerOperation("ProvisioningHostingHostingNameDatabaseDatabaseNamePut")]
         [SwaggerResponse(200, type: typeof(FabricTask))]
-        public virtual IActionResult ProvisioningHostingHostingNameDatabaseDatabaseNamePut([FromHeader]string authorization, [FromRoute]string hostingName, [FromRoute]string databaseName, [FromBody]DatabaseInfo1 databaseInfo)
+        public virtual IActionResult ProvisioningHostingHostingNameDatabaseDatabaseNamePut([FromHeader]string authorization, [FromRoute]string hostingName, [FromRoute]string databaseName, [FromBody]DatabaseInfo databaseInfo)
+        { 
+            string exampleJson = null;
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<FabricTask>(exampleJson)
+            : default(FabricTask);
+            return new ObjectResult(example);
+        }
+
+
+        /// <summary>
+        /// Retrieve a list of database users
+        /// </summary>
+        /// <remarks>Retrieve the list of database users for a hosting account </remarks>
+        /// <param name="authorization">Access token</param>
+        /// <param name="hostingName">Hosting account (primary domain)</param>
+        /// <response code="200">Retrieve the list of database users for a hosting account</response>
+        /// <response code="401">Invalid authorization token</response>
+        /// <response code="404">Hosting not found</response>
+        /// <response code="0">Unexpected error</response>
+        [HttpGet]
+        [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting/{hosting_name}/database/users")]
+        [SwaggerOperation("ProvisioningHostingHostingNameDatabaseUsersGet")]
+        [SwaggerResponse(200, type: typeof(List<DatabaseUserInfo>))]
+        public virtual IActionResult ProvisioningHostingHostingNameDatabaseUsersGet([FromHeader]string authorization, [FromRoute]string hostingName)
+        { 
+            string exampleJson = null;
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<List<DatabaseUserInfo>>(exampleJson)
+            : default(List<DatabaseUserInfo>);
+            return new ObjectResult(example);
+        }
+
+
+        /// <summary>
+        /// Create a database user (user on the database cluster)
+        /// </summary>
+        /// <remarks>Create a new database user </remarks>
+        /// <param name="authorization">Access token</param>
+        /// <param name="hostingName">Hosting account (primary domain)</param>
+        /// <param name="userInfo">The database user details</param>
+        /// <response code="202">Create a database user on cluster with specified grant permissions</response>
+        /// <response code="401">Invalid authorization token</response>
+        /// <response code="404">Hosting not found</response>
+        /// <response code="409">Specified db_username already exists</response>
+        /// <response code="0">Unexpected error</response>
+        [HttpPost]
+        [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting/{hosting_name}/database/users")]
+        [SwaggerOperation("ProvisioningHostingHostingNameDatabaseUsersPost")]
+        [SwaggerResponse(200, type: typeof(FabricTask))]
+        public virtual IActionResult ProvisioningHostingHostingNameDatabaseUsersPost([FromHeader]string authorization, [FromRoute]string hostingName, [FromBody]UserInfo userInfo)
         { 
             string exampleJson = null;
             
