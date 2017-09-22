@@ -1077,7 +1077,6 @@ definitions:
   HostingAccountInfo:
     type: "object"
     required:
-    - "hosting_account_id"
     - "hosting_name"
     properties:
       hosting_account_id:
