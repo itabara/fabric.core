@@ -148,31 +148,6 @@ namespace IO.Swagger.Controllers
 
 
         /// <summary>
-        /// Retrieve a list of database users
-        /// </summary>
-        /// <remarks>Retrieve the list of database users for a hosting account </remarks>
-        /// <param name="authorization">Access token</param>
-        /// <param name="hostingName">Hosting account (primary domain)</param>
-        /// <response code="200">Retrieve the list of database users for a hosting account</response>
-        /// <response code="401">Invalid authorization token</response>
-        /// <response code="404">Hosting not found</response>
-        /// <response code="0">Unexpected error</response>
-        [HttpGet]
-        [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting/{hosting_name}/database/users")]
-        [SwaggerOperation("ProvisioningHostingHostingNameDatabaseUsersGet")]
-        [SwaggerResponse(200, type: typeof(List<DatabaseUserInfo>))]
-        public virtual IActionResult ProvisioningHostingHostingNameDatabaseUsersGet([FromHeader]string authorization, [FromRoute]string hostingName)
-        { 
-            string exampleJson = null;
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<List<DatabaseUserInfo>>(exampleJson)
-            : default(List<DatabaseUserInfo>);
-            return new ObjectResult(example);
-        }
-
-
-        /// <summary>
         /// Create a database user (user on the database cluster)
         /// </summary>
         /// <remarks>Create a new database user </remarks>
