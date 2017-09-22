@@ -98,6 +98,7 @@ namespace IO.Swagger.Controllers
         /// <param name="authorization">Access token</param>
         /// <param name="hostingName">hosting account (primary domain)</param>
         /// <response code="200">Retrieve HostingAccount status</response>
+        /// <response code="401">Invalid authorization token</response>
         /// <response code="404">Failed to get hosting account</response>
         /// <response code="0">Unexpected error</response>
         [HttpGet]
@@ -173,6 +174,7 @@ namespace IO.Swagger.Controllers
         /// <param name="hostingName">hosting account (primary domain)</param>
         /// <param name="status">change hosting account status (enable/disable)</param>
         /// <response code="200">Change HostingAccount status</response>
+        /// <response code="401">Invalid authorization token</response>
         /// <response code="404">Failed to get hosting account</response>
         /// <response code="0">Unexpected error</response>
         [HttpPut]
