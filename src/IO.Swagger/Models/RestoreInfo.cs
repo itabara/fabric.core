@@ -45,14 +45,16 @@ namespace IO.Swagger.Models
         /// <param name="SourceType">Webspace or database backup.</param>
         /// <param name="Status">operation status.</param>
         /// <param name="CompletedDate">CompletedDate.</param>
-        /// <param name="Error">Error.</param>
-        public RestoreInfo(string FileName = null, string SourceType = null, string Status = null, DateTime? CompletedDate = null, string Error = null)
+        /// <param name="Error">the error details if the restore failed.</param>
+        /// <param name="LogFile">the log file for the restore operation.</param>
+        public RestoreInfo(string FileName = null, string SourceType = null, string Status = null, DateTime? CompletedDate = null, string Error = null, string LogFile = null)
         {
             this.FileName = FileName;
             this.SourceType = SourceType;
             this.Status = Status;
             this.CompletedDate = CompletedDate;
             this.Error = Error;
+            this.LogFile = LogFile;
             
         }
 
@@ -84,10 +86,18 @@ namespace IO.Swagger.Models
         public DateTime? CompletedDate { get; set; }
 
         /// <summary>
-        /// Gets or Sets Error
+        /// the error details if the restore failed
         /// </summary>
+        /// <value>the error details if the restore failed</value>
         [DataMember(Name="error")]
         public string Error { get; set; }
+
+        /// <summary>
+        /// the log file for the restore operation
+        /// </summary>
+        /// <value>the log file for the restore operation</value>
+        [DataMember(Name="log_file")]
+        public string LogFile { get; set; }
 
 
         /// <summary>
@@ -103,6 +113,7 @@ namespace IO.Swagger.Models
             sb.Append("  Status: ").Append(Status).Append("\n");
             sb.Append("  CompletedDate: ").Append(CompletedDate).Append("\n");
             sb.Append("  Error: ").Append(Error).Append("\n");
+            sb.Append("  LogFile: ").Append(LogFile).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -165,6 +176,11 @@ namespace IO.Swagger.Models
                     this.Error == other.Error ||
                     this.Error != null &&
                     this.Error.Equals(other.Error)
+                ) && 
+                (
+                    this.LogFile == other.LogFile ||
+                    this.LogFile != null &&
+                    this.LogFile.Equals(other.LogFile)
                 );
         }
 
@@ -189,6 +205,8 @@ namespace IO.Swagger.Models
                     hash = hash * 59 + this.CompletedDate.GetHashCode();
                 if (this.Error != null)
                     hash = hash * 59 + this.Error.GetHashCode();
+                if (this.LogFile != null)
+                    hash = hash * 59 + this.LogFile.GetHashCode();
                 return hash;
             }
         }
