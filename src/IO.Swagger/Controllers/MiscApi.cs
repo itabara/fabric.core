@@ -42,6 +42,57 @@ namespace IO.Swagger.Controllers
     { 
 
         /// <summary>
+        /// Get IIS settings for hosting account
+        /// </summary>
+        /// <remarks>Get IIS settings settings</remarks>
+        /// <param name="authorization">Access token</param>
+        /// <param name="hostingName">hosting account (primary domain)</param>
+        /// <response code="200">Success</response>
+        /// <response code="401">Invalid authorization token</response>
+        /// <response code="404">Hosting not found</response>
+        /// <response code="0">Unexpected error</response>
+        [HttpGet]
+        [Route("/itabara/Fabric.Core/1.0.0/provisioning/misc/{hosting_name}/iis_settings")]
+        [SwaggerOperation("ProvisioningMiscHostingNameIisSettingsGet")]
+        [SwaggerResponse(200, type: typeof(AppPoolInfo))]
+        public virtual IActionResult ProvisioningMiscHostingNameIisSettingsGet([FromHeader]string authorization, [FromRoute]string hostingName)
+        { 
+            string exampleJson = null;
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<AppPoolInfo>(exampleJson)
+            : default(AppPoolInfo);
+            return new ObjectResult(example);
+        }
+
+
+        /// <summary>
+        /// Update an IIS Setting
+        /// </summary>
+        
+        /// <param name="authorization">Access token</param>
+        /// <param name="hostingName">hosting account (primary domain)</param>
+        /// <param name="iisSettings">IIS Settings</param>
+        /// <response code="200">Success</response>
+        /// <response code="401">Invalid authorization token</response>
+        /// <response code="404">Hosting not found</response>
+        /// <response code="0">Unexpected error</response>
+        [HttpPut]
+        [Route("/itabara/Fabric.Core/1.0.0/provisioning/misc/{hosting_name}/iis_settings")]
+        [SwaggerOperation("ProvisioningMiscHostingNameIisSettingsPut")]
+        [SwaggerResponse(200, type: typeof(string))]
+        public virtual IActionResult ProvisioningMiscHostingNameIisSettingsPut([FromHeader]string authorization, [FromRoute]string hostingName, [FromBody]IisSettings iisSettings)
+        { 
+            string exampleJson = null;
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<string>(exampleJson)
+            : default(string);
+            return new ObjectResult(example);
+        }
+
+
+        /// <summary>
         /// Retrieve list of dirs starting from hosting&#39;s root folder
         /// </summary>
         /// <remarks>Retrieve list of dirs starting from hosting&#39;s root folder</remarks>
@@ -57,6 +108,110 @@ namespace IO.Swagger.Controllers
         [SwaggerOperation("ProvisioningMiscHostingNameLsDepthGet")]
         [SwaggerResponse(200, type: typeof(string))]
         public virtual IActionResult ProvisioningMiscHostingNameLsDepthGet([FromHeader]string authorization, [FromRoute]string hostingName, [FromRoute]int? depth)
+        { 
+            string exampleJson = null;
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<string>(exampleJson)
+            : default(string);
+            return new ObjectResult(example);
+        }
+
+
+        /// <summary>
+        /// Retrieve list of IP access security rules
+        /// </summary>
+        /// <remarks>Retrieve list of IP access security rules</remarks>
+        /// <param name="authorization">Access token</param>
+        /// <param name="hostingName">hosting account (primary domain)</param>
+        /// <response code="200">list of IP Security Rules</response>
+        /// <response code="401">Invalid authorization token</response>
+        /// <response code="404">Hosting not found</response>
+        /// <response code="0">Unexpected error</response>
+        [HttpGet]
+        [Route("/itabara/Fabric.Core/1.0.0/provisioning/misc/{hosting_name}/security/access")]
+        [SwaggerOperation("ProvisioningMiscHostingNameSecurityAccessGet")]
+        [SwaggerResponse(200, type: typeof(List<IPSecurity>))]
+        public virtual IActionResult ProvisioningMiscHostingNameSecurityAccessGet([FromHeader]string authorization, [FromRoute]string hostingName)
+        { 
+            string exampleJson = null;
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<List<IPSecurity>>(exampleJson)
+            : default(List<IPSecurity>);
+            return new ObjectResult(example);
+        }
+
+
+        /// <summary>
+        /// Add IP access security rule
+        /// </summary>
+        /// <remarks>Add IP access security rule</remarks>
+        /// <param name="authorization">Access token</param>
+        /// <param name="hostingName">hosting account (primary domain)</param>
+        /// <param name="securityRule">Security rule details</param>
+        /// <response code="200">Identifier for new rule</response>
+        /// <response code="401">Invalid authorization token</response>
+        /// <response code="404">Hosting not found</response>
+        /// <response code="0">Unexpected error</response>
+        [HttpPost]
+        [Route("/itabara/Fabric.Core/1.0.0/provisioning/misc/{hosting_name}/security/access")]
+        [SwaggerOperation("ProvisioningMiscHostingNameSecurityAccessPost")]
+        [SwaggerResponse(200, type: typeof(string))]
+        public virtual IActionResult ProvisioningMiscHostingNameSecurityAccessPost([FromHeader]string authorization, [FromRoute]string hostingName, [FromBody]SecurityRule securityRule)
+        { 
+            string exampleJson = null;
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<string>(exampleJson)
+            : default(string);
+            return new ObjectResult(example);
+        }
+
+
+        /// <summary>
+        /// Remove IP access security rule
+        /// </summary>
+        /// <remarks>Remove IP access security rule</remarks>
+        /// <param name="authorization">Access token</param>
+        /// <param name="hostingName">hosting account (primary domain)</param>
+        /// <param name="ruleId">ip rule identifier</param>
+        /// <response code="200">Security rule was deleted</response>
+        /// <response code="401">Invalid authorization token</response>
+        /// <response code="404">Hosting or security rule not found</response>
+        /// <response code="0">Unexpected error</response>
+        [HttpDelete]
+        [Route("/itabara/Fabric.Core/1.0.0/provisioning/misc/{hosting_name}/security/access/{rule_id}")]
+        [SwaggerOperation("ProvisioningMiscHostingNameSecurityAccessRuleIdDelete")]
+        [SwaggerResponse(200, type: typeof(string))]
+        public virtual IActionResult ProvisioningMiscHostingNameSecurityAccessRuleIdDelete([FromHeader]string authorization, [FromRoute]string hostingName, [FromRoute]string ruleId)
+        { 
+            string exampleJson = null;
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<string>(exampleJson)
+            : default(string);
+            return new ObjectResult(example);
+        }
+
+
+        /// <summary>
+        /// Modify IP access security rule
+        /// </summary>
+        /// <remarks>Modify IP access security rule</remarks>
+        /// <param name="authorization">Access token</param>
+        /// <param name="hostingName">hosting account (primary domain)</param>
+        /// <param name="ruleId">ip rule identifier</param>
+        /// <param name="securityRule">Security rule updates</param>
+        /// <response code="200">Rule was updated</response>
+        /// <response code="401">Invalid authorization token</response>
+        /// <response code="404">Hosting or security rule not found</response>
+        /// <response code="0">Unexpected error</response>
+        [HttpPut]
+        [Route("/itabara/Fabric.Core/1.0.0/provisioning/misc/{hosting_name}/security/access/{rule_id}")]
+        [SwaggerOperation("ProvisioningMiscHostingNameSecurityAccessRuleIdPut")]
+        [SwaggerResponse(200, type: typeof(string))]
+        public virtual IActionResult ProvisioningMiscHostingNameSecurityAccessRuleIdPut([FromHeader]string authorization, [FromRoute]string hostingName, [FromRoute]string ruleId, [FromBody]SecurityRule1 securityRule)
         { 
             string exampleJson = null;
             
