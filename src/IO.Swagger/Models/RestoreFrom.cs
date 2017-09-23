@@ -36,58 +36,24 @@ namespace IO.Swagger.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class RestoreInfo : BackupInfo,  IEquatable<RestoreInfo>
+    public partial class RestoreFrom :  IEquatable<RestoreFrom>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RestoreInfo" /> class.
+        /// Initializes a new instance of the <see cref="RestoreFrom" /> class.
         /// </summary>
-        /// <param name="FileName">backup name.</param>
-        /// <param name="SourceType">Webspace or database backup.</param>
-        /// <param name="Status">operation status.</param>
-        /// <param name="CompletedDate">CompletedDate.</param>
-        /// <param name="Error">Error.</param>
-        public RestoreInfo(string FileName = null, string SourceType = null, string Status = null, DateTime? CompletedDate = null, string Error = null)
+        /// <param name="FileName">the filename of the restore file.</param>
+        public RestoreFrom(string FileName = null)
         {
             this.FileName = FileName;
-            this.SourceType = SourceType;
-            this.Status = Status;
-            this.CompletedDate = CompletedDate;
-            this.Error = Error;
             
         }
 
         /// <summary>
-        /// backup name
+        /// the filename of the restore file
         /// </summary>
-        /// <value>backup name</value>
+        /// <value>the filename of the restore file</value>
         [DataMember(Name="file_name")]
         public string FileName { get; set; }
-
-        /// <summary>
-        /// Webspace or database backup
-        /// </summary>
-        /// <value>Webspace or database backup</value>
-        [DataMember(Name="source_type")]
-        public string SourceType { get; set; }
-
-        /// <summary>
-        /// operation status
-        /// </summary>
-        /// <value>operation status</value>
-        [DataMember(Name="status")]
-        public string Status { get; set; }
-
-        /// <summary>
-        /// Gets or Sets CompletedDate
-        /// </summary>
-        [DataMember(Name="completed_date")]
-        public DateTime? CompletedDate { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Error
-        /// </summary>
-        [DataMember(Name="error")]
-        public string Error { get; set; }
 
 
         /// <summary>
@@ -97,12 +63,8 @@ namespace IO.Swagger.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class RestoreInfo {\n");
+            sb.Append("class RestoreFrom {\n");
             sb.Append("  FileName: ").Append(FileName).Append("\n");
-            sb.Append("  SourceType: ").Append(SourceType).Append("\n");
-            sb.Append("  Status: ").Append(Status).Append("\n");
-            sb.Append("  CompletedDate: ").Append(CompletedDate).Append("\n");
-            sb.Append("  Error: ").Append(Error).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -111,7 +73,7 @@ namespace IO.Swagger.Models
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public  new string ToJson()
+        public string ToJson()
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
@@ -126,15 +88,15 @@ namespace IO.Swagger.Models
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((RestoreInfo)obj);
+            return Equals((RestoreFrom)obj);
         }
 
         /// <summary>
-        /// Returns true if RestoreInfo instances are equal
+        /// Returns true if RestoreFrom instances are equal
         /// </summary>
-        /// <param name="other">Instance of RestoreInfo to be compared</param>
+        /// <param name="other">Instance of RestoreFrom to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(RestoreInfo other)
+        public bool Equals(RestoreFrom other)
         {
 
             if (ReferenceEquals(null, other)) return false;
@@ -145,26 +107,6 @@ namespace IO.Swagger.Models
                     this.FileName == other.FileName ||
                     this.FileName != null &&
                     this.FileName.Equals(other.FileName)
-                ) && 
-                (
-                    this.SourceType == other.SourceType ||
-                    this.SourceType != null &&
-                    this.SourceType.Equals(other.SourceType)
-                ) && 
-                (
-                    this.Status == other.Status ||
-                    this.Status != null &&
-                    this.Status.Equals(other.Status)
-                ) && 
-                (
-                    this.CompletedDate == other.CompletedDate ||
-                    this.CompletedDate != null &&
-                    this.CompletedDate.Equals(other.CompletedDate)
-                ) && 
-                (
-                    this.Error == other.Error ||
-                    this.Error != null &&
-                    this.Error.Equals(other.Error)
                 );
         }
 
@@ -181,26 +123,18 @@ namespace IO.Swagger.Models
                 // Suitable nullity checks etc, of course :)
                 if (this.FileName != null)
                     hash = hash * 59 + this.FileName.GetHashCode();
-                if (this.SourceType != null)
-                    hash = hash * 59 + this.SourceType.GetHashCode();
-                if (this.Status != null)
-                    hash = hash * 59 + this.Status.GetHashCode();
-                if (this.CompletedDate != null)
-                    hash = hash * 59 + this.CompletedDate.GetHashCode();
-                if (this.Error != null)
-                    hash = hash * 59 + this.Error.GetHashCode();
                 return hash;
             }
         }
 
         #region Operators
 
-        public static bool operator ==(RestoreInfo left, RestoreInfo right)
+        public static bool operator ==(RestoreFrom left, RestoreFrom right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(RestoreInfo left, RestoreInfo right)
+        public static bool operator !=(RestoreFrom left, RestoreFrom right)
         {
             return !Equals(left, right);
         }

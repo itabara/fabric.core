@@ -54,7 +54,7 @@ namespace IO.Swagger.Controllers
         /// <response code="409">An existing database already exists</response>
         /// <response code="0">Unexpected error</response>
         [HttpPost]
-        [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting/{hosting_name}/databases")]
+        [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting/{hosting_name}/database")]
         [SwaggerOperation("CreateDatabase")]
         [SwaggerResponse(200, type: typeof(List<FabricTask>))]
         public virtual IActionResult CreateDatabase([FromHeader]string authorization, [FromRoute]string hostingName, [FromBody]DatabaseInfo databaseInfo)
@@ -158,10 +158,10 @@ namespace IO.Swagger.Controllers
         /// <response code="404">Hosting or ftpuser not found</response>
         /// <response code="0">Unexpected error</response>
         [HttpGet]
-        [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting/{hosting_name}/databases")]
-        [SwaggerOperation("ProvisioningHostingHostingNameDatabasesGet")]
+        [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting/{hosting_name}/database")]
+        [SwaggerOperation("ProvisioningHostingHostingNameDatabaseGet")]
         [SwaggerResponse(200, type: typeof(List<DatabaseInfo>))]
-        public virtual IActionResult ProvisioningHostingHostingNameDatabasesGet([FromHeader]string authorization, [FromRoute]string hostingName)
+        public virtual IActionResult ProvisioningHostingHostingNameDatabaseGet([FromHeader]string authorization, [FromRoute]string hostingName)
         { 
             string exampleJson = null;
             
