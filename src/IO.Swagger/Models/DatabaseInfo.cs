@@ -41,44 +41,81 @@ namespace IO.Swagger.Models
         /// <summary>
         /// Initializes a new instance of the <see cref="DatabaseInfo" /> class.
         /// </summary>
-        /// <param name="DbUsers">Array of database users (required).</param>
-        /// <param name="DbSize">Max database size (required).</param>
-        public DatabaseInfo(List<string> DbUsers = null, long? DbSize = null)
+        /// <param name="DatabaseId">Database unique identifier.</param>
+        /// <param name="DatabaseName">Database name.</param>
+        /// <param name="DatabaseCluster">Database cluster.</param>
+        /// <param name="EngineType">Database engine type.</param>
+        /// <param name="DbSize">Database max size (MB).</param>
+        /// <param name="DbActualSize">Database actual size (MB).</param>
+        /// <param name="DbUsers">DbUsers.</param>
+        /// <param name="DbConnection">Friendly DB connection string (eg. ssl, port, etc).</param>
+        public DatabaseInfo(long? DatabaseId = null, string DatabaseName = null, string DatabaseCluster = null, string EngineType = null, int? DbSize = null, int? DbActualSize = null, List<DatabaseUserInfo> DbUsers = null, string DbConnection = null)
         {
-            // to ensure "DbUsers" is required (not null)
-            if (DbUsers == null)
-            {
-                throw new InvalidDataException("DbUsers is a required property for DatabaseInfo and cannot be null");
-            }
-            else
-            {
-                this.DbUsers = DbUsers;
-            }
-            // to ensure "DbSize" is required (not null)
-            if (DbSize == null)
-            {
-                throw new InvalidDataException("DbSize is a required property for DatabaseInfo and cannot be null");
-            }
-            else
-            {
-                this.DbSize = DbSize;
-            }
+            this.DatabaseId = DatabaseId;
+            this.DatabaseName = DatabaseName;
+            this.DatabaseCluster = DatabaseCluster;
+            this.EngineType = EngineType;
+            this.DbSize = DbSize;
+            this.DbActualSize = DbActualSize;
+            this.DbUsers = DbUsers;
+            this.DbConnection = DbConnection;
             
         }
 
         /// <summary>
-        /// Array of database users
+        /// Database unique identifier
         /// </summary>
-        /// <value>Array of database users</value>
-        [DataMember(Name="db_users")]
-        public List<string> DbUsers { get; set; }
+        /// <value>Database unique identifier</value>
+        [DataMember(Name="database_id")]
+        public long? DatabaseId { get; set; }
 
         /// <summary>
-        /// Max database size
+        /// Database name
         /// </summary>
-        /// <value>Max database size</value>
+        /// <value>Database name</value>
+        [DataMember(Name="database_name")]
+        public string DatabaseName { get; set; }
+
+        /// <summary>
+        /// Database cluster
+        /// </summary>
+        /// <value>Database cluster</value>
+        [DataMember(Name="database_cluster")]
+        public string DatabaseCluster { get; set; }
+
+        /// <summary>
+        /// Database engine type
+        /// </summary>
+        /// <value>Database engine type</value>
+        [DataMember(Name="engine_type")]
+        public string EngineType { get; set; }
+
+        /// <summary>
+        /// Database max size (MB)
+        /// </summary>
+        /// <value>Database max size (MB)</value>
         [DataMember(Name="db_size")]
-        public long? DbSize { get; set; }
+        public int? DbSize { get; set; }
+
+        /// <summary>
+        /// Database actual size (MB)
+        /// </summary>
+        /// <value>Database actual size (MB)</value>
+        [DataMember(Name="db_actual_size")]
+        public int? DbActualSize { get; set; }
+
+        /// <summary>
+        /// Gets or Sets DbUsers
+        /// </summary>
+        [DataMember(Name="db_users")]
+        public List<DatabaseUserInfo> DbUsers { get; set; }
+
+        /// <summary>
+        /// Friendly DB connection string (eg. ssl, port, etc)
+        /// </summary>
+        /// <value>Friendly DB connection string (eg. ssl, port, etc)</value>
+        [DataMember(Name="db_connection")]
+        public string DbConnection { get; set; }
 
 
         /// <summary>
@@ -89,8 +126,14 @@ namespace IO.Swagger.Models
         {
             var sb = new StringBuilder();
             sb.Append("class DatabaseInfo {\n");
-            sb.Append("  DbUsers: ").Append(DbUsers).Append("\n");
+            sb.Append("  DatabaseId: ").Append(DatabaseId).Append("\n");
+            sb.Append("  DatabaseName: ").Append(DatabaseName).Append("\n");
+            sb.Append("  DatabaseCluster: ").Append(DatabaseCluster).Append("\n");
+            sb.Append("  EngineType: ").Append(EngineType).Append("\n");
             sb.Append("  DbSize: ").Append(DbSize).Append("\n");
+            sb.Append("  DbActualSize: ").Append(DbActualSize).Append("\n");
+            sb.Append("  DbUsers: ").Append(DbUsers).Append("\n");
+            sb.Append("  DbConnection: ").Append(DbConnection).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -130,14 +173,44 @@ namespace IO.Swagger.Models
 
             return 
                 (
-                    this.DbUsers == other.DbUsers ||
-                    this.DbUsers != null &&
-                    this.DbUsers.SequenceEqual(other.DbUsers)
+                    this.DatabaseId == other.DatabaseId ||
+                    this.DatabaseId != null &&
+                    this.DatabaseId.Equals(other.DatabaseId)
+                ) && 
+                (
+                    this.DatabaseName == other.DatabaseName ||
+                    this.DatabaseName != null &&
+                    this.DatabaseName.Equals(other.DatabaseName)
+                ) && 
+                (
+                    this.DatabaseCluster == other.DatabaseCluster ||
+                    this.DatabaseCluster != null &&
+                    this.DatabaseCluster.Equals(other.DatabaseCluster)
+                ) && 
+                (
+                    this.EngineType == other.EngineType ||
+                    this.EngineType != null &&
+                    this.EngineType.Equals(other.EngineType)
                 ) && 
                 (
                     this.DbSize == other.DbSize ||
                     this.DbSize != null &&
                     this.DbSize.Equals(other.DbSize)
+                ) && 
+                (
+                    this.DbActualSize == other.DbActualSize ||
+                    this.DbActualSize != null &&
+                    this.DbActualSize.Equals(other.DbActualSize)
+                ) && 
+                (
+                    this.DbUsers == other.DbUsers ||
+                    this.DbUsers != null &&
+                    this.DbUsers.SequenceEqual(other.DbUsers)
+                ) && 
+                (
+                    this.DbConnection == other.DbConnection ||
+                    this.DbConnection != null &&
+                    this.DbConnection.Equals(other.DbConnection)
                 );
         }
 
@@ -152,10 +225,22 @@ namespace IO.Swagger.Models
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
-                if (this.DbUsers != null)
-                    hash = hash * 59 + this.DbUsers.GetHashCode();
+                if (this.DatabaseId != null)
+                    hash = hash * 59 + this.DatabaseId.GetHashCode();
+                if (this.DatabaseName != null)
+                    hash = hash * 59 + this.DatabaseName.GetHashCode();
+                if (this.DatabaseCluster != null)
+                    hash = hash * 59 + this.DatabaseCluster.GetHashCode();
+                if (this.EngineType != null)
+                    hash = hash * 59 + this.EngineType.GetHashCode();
                 if (this.DbSize != null)
                     hash = hash * 59 + this.DbSize.GetHashCode();
+                if (this.DbActualSize != null)
+                    hash = hash * 59 + this.DbActualSize.GetHashCode();
+                if (this.DbUsers != null)
+                    hash = hash * 59 + this.DbUsers.GetHashCode();
+                if (this.DbConnection != null)
+                    hash = hash * 59 + this.DbConnection.GetHashCode();
                 return hash;
             }
         }

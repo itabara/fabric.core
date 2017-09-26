@@ -47,7 +47,7 @@ namespace IO.Swagger.Controllers
         /// <remarks>Create a database instance with required parameters. We assume a group of WebClusters will have own database cluster. </remarks>
         /// <param name="authorization">Access token</param>
         /// <param name="hostingName">hosting account (primary domain)</param>
-        /// <param name="databaseInfo">The database details.</param>
+        /// <param name="databaseCreate">The database details.</param>
         /// <response code="202">Create a database instance</response>
         /// <response code="401">Invalid authorization token</response>
         /// <response code="404">Hosting not found</response>
@@ -57,7 +57,7 @@ namespace IO.Swagger.Controllers
         [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting/{hosting_name}/database")]
         [SwaggerOperation("CreateDatabase")]
         [SwaggerResponse(200, type: typeof(List<FabricTask>))]
-        public virtual IActionResult CreateDatabase([FromHeader]string authorization, [FromRoute]string hostingName, [FromBody]DatabaseInfo databaseInfo)
+        public virtual IActionResult CreateDatabase([FromHeader]string authorization, [FromRoute]string hostingName, [FromBody]DatabaseCreate databaseCreate)
         { 
             string exampleJson = null;
             
@@ -127,7 +127,7 @@ namespace IO.Swagger.Controllers
         /// <param name="authorization">Access token</param>
         /// <param name="hostingName">Hosting account (primary domain)</param>
         /// <param name="databaseName">Database name</param>
-        /// <param name="databaseInfo">The database details to be updated</param>
+        /// <param name="databaseUpdate">The database details to be updated</param>
         /// <response code="200">Database details edit</response>
         /// <response code="401">Invalid authorization token</response>
         /// <response code="404">Hosting or database not found</response>
@@ -136,7 +136,7 @@ namespace IO.Swagger.Controllers
         [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting/{hosting_name}/database/{database_name}")]
         [SwaggerOperation("ProvisioningHostingHostingNameDatabaseDatabaseNamePut")]
         [SwaggerResponse(200, type: typeof(FabricTask))]
-        public virtual IActionResult ProvisioningHostingHostingNameDatabaseDatabaseNamePut([FromHeader]string authorization, [FromRoute]string hostingName, [FromRoute]string databaseName, [FromBody]DatabaseInfo databaseInfo)
+        public virtual IActionResult ProvisioningHostingHostingNameDatabaseDatabaseNamePut([FromHeader]string authorization, [FromRoute]string hostingName, [FromRoute]string databaseName, [FromBody]DatabaseUpdate databaseUpdate)
         { 
             string exampleJson = null;
             

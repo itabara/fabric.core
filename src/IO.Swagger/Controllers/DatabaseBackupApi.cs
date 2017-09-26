@@ -126,7 +126,7 @@ namespace IO.Swagger.Controllers
         /// <param name="authorization">Access token</param>
         /// <param name="hostingName">Hosting account (primary domain)</param>
         /// <param name="databaseName">Database name</param>
-        /// <param name="backupInfo">The database details.</param>
+        /// <param name="databaseRestore">The database details.</param>
         /// <response code="202">Restore the backup content into database</response>
         /// <response code="401">Invalid authorization token</response>
         /// <response code="404">Hosting or database not found</response>
@@ -135,7 +135,7 @@ namespace IO.Swagger.Controllers
         [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting/{hosting_name}/database/{database_name}/restores")]
         [SwaggerOperation("ProvisioningHostingHostingNameDatabaseDatabaseNameRestoresPost")]
         [SwaggerResponse(200, type: typeof(FabricTask))]
-        public virtual IActionResult ProvisioningHostingHostingNameDatabaseDatabaseNameRestoresPost([FromHeader]string authorization, [FromRoute]string hostingName, [FromRoute]string databaseName, [FromBody]BackupInfo backupInfo)
+        public virtual IActionResult ProvisioningHostingHostingNameDatabaseDatabaseNameRestoresPost([FromHeader]string authorization, [FromRoute]string hostingName, [FromRoute]string databaseName, [FromBody]DatabaseRestore databaseRestore)
         { 
             string exampleJson = null;
             

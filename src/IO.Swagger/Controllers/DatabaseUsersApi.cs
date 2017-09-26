@@ -100,7 +100,7 @@ namespace IO.Swagger.Controllers
         /// <param name="authorization">Access token</param>
         /// <param name="hostingName">Hosting account (primary domain)</param>
         /// <param name="dbUsername">User identifier</param>
-        /// <param name="userInfo">The database user details</param>
+        /// <param name="databaseUserUpdate">The database user details</param>
         /// <response code="200">Update an existing database user</response>
         /// <response code="401">Invalid authorization token</response>
         /// <response code="404">Hosting or database user not found</response>
@@ -109,7 +109,7 @@ namespace IO.Swagger.Controllers
         [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting/{hosting_name}/database/user/{db_username}")]
         [SwaggerOperation("ProvisioningHostingHostingNameDatabaseUserDbUsernamePut")]
         [SwaggerResponse(200, type: typeof(FabricTask))]
-        public virtual IActionResult ProvisioningHostingHostingNameDatabaseUserDbUsernamePut([FromHeader]string authorization, [FromRoute]string hostingName, [FromRoute]string dbUsername, [FromBody]UserInfo1 userInfo)
+        public virtual IActionResult ProvisioningHostingHostingNameDatabaseUserDbUsernamePut([FromHeader]string authorization, [FromRoute]string hostingName, [FromRoute]string dbUsername, [FromBody]DatabaseUserUpdate databaseUserUpdate)
         { 
             string exampleJson = null;
             
@@ -151,7 +151,7 @@ namespace IO.Swagger.Controllers
         /// <remarks>Create a new database user </remarks>
         /// <param name="authorization">Access token</param>
         /// <param name="hostingName">Hosting account (primary domain)</param>
-        /// <param name="userInfo">The database user details</param>
+        /// <param name="databaseUserCreate">The database user details</param>
         /// <response code="202">Create a database user on cluster with specified grant permissions</response>
         /// <response code="401">Invalid authorization token</response>
         /// <response code="404">Hosting not found</response>
@@ -161,7 +161,7 @@ namespace IO.Swagger.Controllers
         [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting/{hosting_name}/database/users")]
         [SwaggerOperation("ProvisioningHostingHostingNameDatabaseUsersPost")]
         [SwaggerResponse(200, type: typeof(FabricTask))]
-        public virtual IActionResult ProvisioningHostingHostingNameDatabaseUsersPost([FromHeader]string authorization, [FromRoute]string hostingName, [FromBody]UserInfo userInfo)
+        public virtual IActionResult ProvisioningHostingHostingNameDatabaseUsersPost([FromHeader]string authorization, [FromRoute]string hostingName, [FromBody]DatabaseUserCreate databaseUserCreate)
         { 
             string exampleJson = null;
             

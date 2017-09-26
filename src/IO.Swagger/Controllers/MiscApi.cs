@@ -72,7 +72,7 @@ namespace IO.Swagger.Controllers
         
         /// <param name="authorization">Access token</param>
         /// <param name="hostingName">hosting account (primary domain)</param>
-        /// <param name="iisSettings">IIS Settings</param>
+        /// <param name="iisSettingsUpdate">IIS Settings</param>
         /// <response code="200">Success</response>
         /// <response code="401">Invalid authorization token</response>
         /// <response code="404">Hosting not found</response>
@@ -81,7 +81,7 @@ namespace IO.Swagger.Controllers
         [Route("/itabara/Fabric.Core/1.0.0/provisioning/misc/{hosting_name}/iis_settings")]
         [SwaggerOperation("ProvisioningMiscHostingNameIisSettingsPut")]
         [SwaggerResponse(200, type: typeof(string))]
-        public virtual IActionResult ProvisioningMiscHostingNameIisSettingsPut([FromHeader]string authorization, [FromRoute]string hostingName, [FromBody]IisSettings iisSettings)
+        public virtual IActionResult ProvisioningMiscHostingNameIisSettingsPut([FromHeader]string authorization, [FromRoute]string hostingName, [FromBody]IisSettingsUpdate iisSettingsUpdate)
         { 
             string exampleJson = null;
             
@@ -149,7 +149,7 @@ namespace IO.Swagger.Controllers
         /// <remarks>Add IP access security rule</remarks>
         /// <param name="authorization">Access token</param>
         /// <param name="hostingName">hosting account (primary domain)</param>
-        /// <param name="securityRule">Security rule details</param>
+        /// <param name="securityRuleCreate">Security rule details</param>
         /// <response code="200">Identifier for new rule</response>
         /// <response code="401">Invalid authorization token</response>
         /// <response code="404">Hosting not found</response>
@@ -158,7 +158,7 @@ namespace IO.Swagger.Controllers
         [Route("/itabara/Fabric.Core/1.0.0/provisioning/misc/{hosting_name}/security/access")]
         [SwaggerOperation("ProvisioningMiscHostingNameSecurityAccessPost")]
         [SwaggerResponse(200, type: typeof(string))]
-        public virtual IActionResult ProvisioningMiscHostingNameSecurityAccessPost([FromHeader]string authorization, [FromRoute]string hostingName, [FromBody]SecurityRule securityRule)
+        public virtual IActionResult ProvisioningMiscHostingNameSecurityAccessPost([FromHeader]string authorization, [FromRoute]string hostingName, [FromBody]SecurityRuleCreate securityRuleCreate)
         { 
             string exampleJson = null;
             
@@ -202,7 +202,7 @@ namespace IO.Swagger.Controllers
         /// <param name="authorization">Access token</param>
         /// <param name="hostingName">hosting account (primary domain)</param>
         /// <param name="ruleId">ip rule identifier</param>
-        /// <param name="securityRule">Security rule updates</param>
+        /// <param name="securityRuleUpdate">Security rule updates</param>
         /// <response code="200">Rule was updated</response>
         /// <response code="401">Invalid authorization token</response>
         /// <response code="404">Hosting or security rule not found</response>
@@ -211,7 +211,7 @@ namespace IO.Swagger.Controllers
         [Route("/itabara/Fabric.Core/1.0.0/provisioning/misc/{hosting_name}/security/access/{rule_id}")]
         [SwaggerOperation("ProvisioningMiscHostingNameSecurityAccessRuleIdPut")]
         [SwaggerResponse(200, type: typeof(string))]
-        public virtual IActionResult ProvisioningMiscHostingNameSecurityAccessRuleIdPut([FromHeader]string authorization, [FromRoute]string hostingName, [FromRoute]string ruleId, [FromBody]SecurityRule1 securityRule)
+        public virtual IActionResult ProvisioningMiscHostingNameSecurityAccessRuleIdPut([FromHeader]string authorization, [FromRoute]string hostingName, [FromRoute]string ruleId, [FromBody]SecurityRuleUpdate securityRuleUpdate)
         { 
             string exampleJson = null;
             
