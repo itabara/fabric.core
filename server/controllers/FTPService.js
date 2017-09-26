@@ -1,17 +1,16 @@
 'use strict';
 
-exports.provisioningHostingHosting_nameDatabaseDatabase_nameBackupsGET = function(args, res, next) {
+exports.provisioningHostingHosting_nameFtpGET = function(args, res, next) {
   /**
    * parameters expected in the args:
   * hosting_name (String)
-  * database_name (String)
   **/
     var examples = {};
   examples['application/json'] = [ {
-  "name" : "aeiou",
-  "type" : "aeiou",
-  "status" : "aeiou",
-  "completed_date" : "2000-01-23T04:56:07.000+00:00"
+  "user_id" : "aeiou",
+  "quota" : 200,
+  "ftp_path" : "/www-data",
+  "username" : "admin@example.com"
 } ];
   if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
@@ -23,11 +22,36 @@ exports.provisioningHostingHosting_nameDatabaseDatabase_nameBackupsGET = functio
   
 }
 
-exports.provisioningHostingHosting_nameDatabaseDatabase_nameBackupsPOST = function(args, res, next) {
+exports.provisioningHostingHosting_nameFtpPOST = function(args, res, next) {
   /**
    * parameters expected in the args:
   * hosting_name (String)
-  * database_name (String)
+  * username (String)
+  * password (String)
+  * account_path (String)
+  **/
+    var examples = {};
+  examples['application/json'] = [ {
+  "user_id" : "aeiou",
+  "quota" : 200,
+  "ftp_path" : "/www-data",
+  "username" : "admin@example.com"
+} ];
+  if(Object.keys(examples).length > 0) {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
+}
+
+exports.provisioningHostingHosting_nameFtpUsernameDELETE = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+  * hosting_name (String)
+  * username (String)
   **/
     var examples = {};
   examples['application/json'] = {
@@ -44,14 +68,19 @@ exports.provisioningHostingHosting_nameDatabaseDatabase_nameBackupsPOST = functi
   
 }
 
-exports.provisioningHostingHosting_nameDatabaseDatabase_nameRestoresGET = function(args, res, next) {
+exports.provisioningHostingHosting_nameFtpUsernameGET = function(args, res, next) {
   /**
    * parameters expected in the args:
   * hosting_name (String)
-  * database_name (String)
+  * username (String)
   **/
     var examples = {};
-  examples['application/json'] = [ "" ];
+  examples['application/json'] = {
+  "user_id" : "aeiou",
+  "quota" : 200,
+  "ftp_path" : "/www-data",
+  "username" : "admin@example.com"
+};
   if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
@@ -62,12 +91,14 @@ exports.provisioningHostingHosting_nameDatabaseDatabase_nameRestoresGET = functi
   
 }
 
-exports.provisioningHostingHosting_nameDatabaseDatabase_nameRestoresPOST = function(args, res, next) {
+exports.provisioningHostingHosting_nameFtpUsernamePUT = function(args, res, next) {
   /**
    * parameters expected in the args:
   * hosting_name (String)
-  * database_name (String)
   * username (String)
+  * password (String)
+  * ftp_quota (String)
+  * ftp_path (String)
   **/
     var examples = {};
   examples['application/json'] = {

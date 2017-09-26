@@ -1,18 +1,17 @@
 'use strict';
 
-exports.provisioningHostingHosting_nameDatabaseDatabase_nameBackupsGET = function(args, res, next) {
+exports.provisioningHostingHosting_nameBackupsGET = function(args, res, next) {
   /**
    * parameters expected in the args:
   * hosting_name (String)
-  * database_name (String)
   **/
     var examples = {};
-  examples['application/json'] = [ {
+  examples['application/json'] = {
   "name" : "aeiou",
   "type" : "aeiou",
   "status" : "aeiou",
   "completed_date" : "2000-01-23T04:56:07.000+00:00"
-} ];
+};
   if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
@@ -23,11 +22,11 @@ exports.provisioningHostingHosting_nameDatabaseDatabase_nameBackupsGET = functio
   
 }
 
-exports.provisioningHostingHosting_nameDatabaseDatabase_nameBackupsPOST = function(args, res, next) {
+exports.provisioningHostingHosting_nameBackupsPOST = function(args, res, next) {
   /**
    * parameters expected in the args:
   * hosting_name (String)
-  * database_name (String)
+  * backup_source (List)
   **/
     var examples = {};
   examples['application/json'] = {
@@ -44,14 +43,13 @@ exports.provisioningHostingHosting_nameDatabaseDatabase_nameBackupsPOST = functi
   
 }
 
-exports.provisioningHostingHosting_nameDatabaseDatabase_nameRestoresGET = function(args, res, next) {
+exports.provisioningHostingHosting_nameRestoresGET = function(args, res, next) {
   /**
    * parameters expected in the args:
   * hosting_name (String)
-  * database_name (String)
   **/
     var examples = {};
-  examples['application/json'] = [ "" ];
+  examples['application/json'] = "";
   if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
@@ -62,12 +60,11 @@ exports.provisioningHostingHosting_nameDatabaseDatabase_nameRestoresGET = functi
   
 }
 
-exports.provisioningHostingHosting_nameDatabaseDatabase_nameRestoresPOST = function(args, res, next) {
+exports.provisioningHostingHosting_nameRestoresPOST = function(args, res, next) {
   /**
    * parameters expected in the args:
   * hosting_name (String)
-  * database_name (String)
-  * username (String)
+  * archieve_name (String)
   **/
     var examples = {};
   examples['application/json'] = {

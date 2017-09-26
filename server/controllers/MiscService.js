@@ -3,13 +3,12 @@
 exports.provisioningMiscHosting_nameIis_settingsGET = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * authorization (String)
-  * hosting_name (String)
+  * hosting_name (Long)
   **/
     var examples = {};
   examples['application/json'] = {
   "pipeline" : "aeiou",
-  "app_name" : "aeiou",
+  "name" : "aeiou",
   "clr_version" : "aeiou",
   "status" : "aeiou"
 };
@@ -26,9 +25,10 @@ exports.provisioningMiscHosting_nameIis_settingsGET = function(args, res, next) 
 exports.provisioningMiscHosting_nameIis_settingsPUT = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * authorization (String)
   * hosting_name (String)
-  * iis_settings (Iis_settings)
+  * framework_version (String)
+  * app_pool_mode (String)
+  * app_pool_status (String)
   **/
     var examples = {};
   examples['application/json'] = "aeiou";
@@ -45,7 +45,6 @@ exports.provisioningMiscHosting_nameIis_settingsPUT = function(args, res, next) 
 exports.provisioningMiscHosting_nameLsDepthGET = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * authorization (String)
   * hosting_name (String)
   * depth (Integer)
   **/
@@ -64,12 +63,11 @@ exports.provisioningMiscHosting_nameLsDepthGET = function(args, res, next) {
 exports.provisioningMiscHosting_nameSecurityAccessGET = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * authorization (String)
   * hosting_name (String)
   **/
     var examples = {};
   examples['application/json'] = [ {
-  "rule_id" : 123456789,
+  "rule_id" : "aeiou",
   "access_type" : "aeiou",
   "ip_source" : "aeiou"
 } ];
@@ -86,9 +84,9 @@ exports.provisioningMiscHosting_nameSecurityAccessGET = function(args, res, next
 exports.provisioningMiscHosting_nameSecurityAccessPOST = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * authorization (String)
   * hosting_name (String)
-  * security_rule (Security_rule)
+  * ip_source (String)
+  * access_type (String)
   **/
     var examples = {};
   examples['application/json'] = "aeiou";
@@ -105,7 +103,6 @@ exports.provisioningMiscHosting_nameSecurityAccessPOST = function(args, res, nex
 exports.provisioningMiscHosting_nameSecurityAccessRule_idDELETE = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * authorization (String)
   * hosting_name (String)
   * rule_id (String)
   **/
@@ -124,10 +121,9 @@ exports.provisioningMiscHosting_nameSecurityAccessRule_idDELETE = function(args,
 exports.provisioningMiscHosting_nameSecurityAccessRule_idPUT = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * authorization (String)
   * hosting_name (String)
   * rule_id (String)
-  * security_rule (Security_rule_1)
+  * access_type (String)
   **/
     var examples = {};
   examples['application/json'] = "aeiou";

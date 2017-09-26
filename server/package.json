@@ -1,7 +1,7 @@
 {
-  "name": "wish-fabric-core-api-middleware-to-fabric-core",
+  "name": "wish-fabric-api-middleware-to-fabric",
   "version": "1.0.0",
-  "description": "Wish Fabric.Core API",
+  "description": "Wish Fabric API",
   "main": "index.js",
   "scripts": {
 	"prestart": "npm install",
