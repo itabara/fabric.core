@@ -36,84 +36,71 @@ namespace IO.Swagger.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class HostingAccount :  IEquatable<HostingAccount>
+    public partial class HostingAccountUpdate :  IEquatable<HostingAccountUpdate>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="HostingAccount" /> class.
+        /// Initializes a new instance of the <see cref="HostingAccountUpdate" /> class.
         /// </summary>
-        /// <param name="HostingAccountId">Fabric hosting_acount_id (PK) (required).</param>
-        /// <param name="HostingName">hosting account (primary domain) (required).</param>
-        /// <param name="FtpQuota">FtpQuota.</param>
-        /// <param name="DiskQuota">DiskQuota.</param>
-        /// <param name="BandwidthQuota">BandwidthQuota.</param>
-        /// <param name="StatsJsonUrl">json endpoint to for chart data.</param>
+        /// <param name="HostingAdminEmail">admin email for hosting account.</param>
+        /// <param name="DiskQuota">webspace quota MB (0&#x3D;unlimited).</param>
+        /// <param name="FtpQuota">max number of FTP users (0&#x3D;unlimited).</param>
+        /// <param name="BandwidthQuota">bandwidth quota MB (0&#x3D;unlimited).</param>
+        /// <param name="DbQuota">max number of databases (0&#x3D;unlimited).</param>
+        /// <param name="DbMaxSize">max database file size (MB).</param>
         /// <param name="Region">optional, specify the region of provisioning (datacenter).</param>
-        public HostingAccount(long? HostingAccountId = null, string HostingName = null, QuotaInfo FtpQuota = null, QuotaInfo DiskQuota = null, QuotaInfo BandwidthQuota = null, string StatsJsonUrl = null, string Region = null)
+        public HostingAccountUpdate(string HostingAdminEmail = null, long? DiskQuota = null, int? FtpQuota = null, long? BandwidthQuota = null, int? DbQuota = null, long? DbMaxSize = null, string Region = null)
         {
-            // to ensure "HostingAccountId" is required (not null)
-            if (HostingAccountId == null)
-            {
-                throw new InvalidDataException("HostingAccountId is a required property for HostingAccount and cannot be null");
-            }
-            else
-            {
-                this.HostingAccountId = HostingAccountId;
-            }
-            // to ensure "HostingName" is required (not null)
-            if (HostingName == null)
-            {
-                throw new InvalidDataException("HostingName is a required property for HostingAccount and cannot be null");
-            }
-            else
-            {
-                this.HostingName = HostingName;
-            }
-            this.FtpQuota = FtpQuota;
+            this.HostingAdminEmail = HostingAdminEmail;
             this.DiskQuota = DiskQuota;
+            this.FtpQuota = FtpQuota;
             this.BandwidthQuota = BandwidthQuota;
-            this.StatsJsonUrl = StatsJsonUrl;
+            this.DbQuota = DbQuota;
+            this.DbMaxSize = DbMaxSize;
             this.Region = Region;
             
         }
 
         /// <summary>
-        /// Fabric hosting_acount_id (PK)
+        /// admin email for hosting account
         /// </summary>
-        /// <value>Fabric hosting_acount_id (PK)</value>
-        [DataMember(Name="hosting_account_id")]
-        public long? HostingAccountId { get; set; }
+        /// <value>admin email for hosting account</value>
+        [DataMember(Name="hosting_admin_email")]
+        public string HostingAdminEmail { get; set; }
 
         /// <summary>
-        /// hosting account (primary domain)
+        /// webspace quota MB (0=unlimited)
         /// </summary>
-        /// <value>hosting account (primary domain)</value>
-        [DataMember(Name="hosting_name")]
-        public string HostingName { get; set; }
-
-        /// <summary>
-        /// Gets or Sets FtpQuota
-        /// </summary>
-        [DataMember(Name="ftp_quota")]
-        public QuotaInfo FtpQuota { get; set; }
-
-        /// <summary>
-        /// Gets or Sets DiskQuota
-        /// </summary>
+        /// <value>webspace quota MB (0=unlimited)</value>
         [DataMember(Name="disk_quota")]
-        public QuotaInfo DiskQuota { get; set; }
+        public long? DiskQuota { get; set; }
 
         /// <summary>
-        /// Gets or Sets BandwidthQuota
+        /// max number of FTP users (0=unlimited)
         /// </summary>
+        /// <value>max number of FTP users (0=unlimited)</value>
+        [DataMember(Name="ftp_quota")]
+        public int? FtpQuota { get; set; }
+
+        /// <summary>
+        /// bandwidth quota MB (0=unlimited)
+        /// </summary>
+        /// <value>bandwidth quota MB (0=unlimited)</value>
         [DataMember(Name="bandwidth_quota")]
-        public QuotaInfo BandwidthQuota { get; set; }
+        public long? BandwidthQuota { get; set; }
 
         /// <summary>
-        /// json endpoint to for chart data
+        /// max number of databases (0=unlimited)
         /// </summary>
-        /// <value>json endpoint to for chart data</value>
-        [DataMember(Name="stats_json_url")]
-        public string StatsJsonUrl { get; set; }
+        /// <value>max number of databases (0=unlimited)</value>
+        [DataMember(Name="db_quota")]
+        public int? DbQuota { get; set; }
+
+        /// <summary>
+        /// max database file size (MB)
+        /// </summary>
+        /// <value>max database file size (MB)</value>
+        [DataMember(Name="db_max_size")]
+        public long? DbMaxSize { get; set; }
 
         /// <summary>
         /// optional, specify the region of provisioning (datacenter)
@@ -130,13 +117,13 @@ namespace IO.Swagger.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class HostingAccount {\n");
-            sb.Append("  HostingAccountId: ").Append(HostingAccountId).Append("\n");
-            sb.Append("  HostingName: ").Append(HostingName).Append("\n");
-            sb.Append("  FtpQuota: ").Append(FtpQuota).Append("\n");
+            sb.Append("class HostingAccountUpdate {\n");
+            sb.Append("  HostingAdminEmail: ").Append(HostingAdminEmail).Append("\n");
             sb.Append("  DiskQuota: ").Append(DiskQuota).Append("\n");
+            sb.Append("  FtpQuota: ").Append(FtpQuota).Append("\n");
             sb.Append("  BandwidthQuota: ").Append(BandwidthQuota).Append("\n");
-            sb.Append("  StatsJsonUrl: ").Append(StatsJsonUrl).Append("\n");
+            sb.Append("  DbQuota: ").Append(DbQuota).Append("\n");
+            sb.Append("  DbMaxSize: ").Append(DbMaxSize).Append("\n");
             sb.Append("  Region: ").Append(Region).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -161,15 +148,15 @@ namespace IO.Swagger.Models
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((HostingAccount)obj);
+            return Equals((HostingAccountUpdate)obj);
         }
 
         /// <summary>
-        /// Returns true if HostingAccount instances are equal
+        /// Returns true if HostingAccountUpdate instances are equal
         /// </summary>
-        /// <param name="other">Instance of HostingAccount to be compared</param>
+        /// <param name="other">Instance of HostingAccountUpdate to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(HostingAccount other)
+        public bool Equals(HostingAccountUpdate other)
         {
 
             if (ReferenceEquals(null, other)) return false;
@@ -177,19 +164,9 @@ namespace IO.Swagger.Models
 
             return 
                 (
-                    this.HostingAccountId == other.HostingAccountId ||
-                    this.HostingAccountId != null &&
-                    this.HostingAccountId.Equals(other.HostingAccountId)
-                ) && 
-                (
-                    this.HostingName == other.HostingName ||
-                    this.HostingName != null &&
-                    this.HostingName.Equals(other.HostingName)
-                ) && 
-                (
-                    this.FtpQuota == other.FtpQuota ||
-                    this.FtpQuota != null &&
-                    this.FtpQuota.Equals(other.FtpQuota)
+                    this.HostingAdminEmail == other.HostingAdminEmail ||
+                    this.HostingAdminEmail != null &&
+                    this.HostingAdminEmail.Equals(other.HostingAdminEmail)
                 ) && 
                 (
                     this.DiskQuota == other.DiskQuota ||
@@ -197,14 +174,24 @@ namespace IO.Swagger.Models
                     this.DiskQuota.Equals(other.DiskQuota)
                 ) && 
                 (
+                    this.FtpQuota == other.FtpQuota ||
+                    this.FtpQuota != null &&
+                    this.FtpQuota.Equals(other.FtpQuota)
+                ) && 
+                (
                     this.BandwidthQuota == other.BandwidthQuota ||
                     this.BandwidthQuota != null &&
                     this.BandwidthQuota.Equals(other.BandwidthQuota)
                 ) && 
                 (
-                    this.StatsJsonUrl == other.StatsJsonUrl ||
-                    this.StatsJsonUrl != null &&
-                    this.StatsJsonUrl.Equals(other.StatsJsonUrl)
+                    this.DbQuota == other.DbQuota ||
+                    this.DbQuota != null &&
+                    this.DbQuota.Equals(other.DbQuota)
+                ) && 
+                (
+                    this.DbMaxSize == other.DbMaxSize ||
+                    this.DbMaxSize != null &&
+                    this.DbMaxSize.Equals(other.DbMaxSize)
                 ) && 
                 (
                     this.Region == other.Region ||
@@ -224,18 +211,18 @@ namespace IO.Swagger.Models
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
-                if (this.HostingAccountId != null)
-                    hash = hash * 59 + this.HostingAccountId.GetHashCode();
-                if (this.HostingName != null)
-                    hash = hash * 59 + this.HostingName.GetHashCode();
-                if (this.FtpQuota != null)
-                    hash = hash * 59 + this.FtpQuota.GetHashCode();
+                if (this.HostingAdminEmail != null)
+                    hash = hash * 59 + this.HostingAdminEmail.GetHashCode();
                 if (this.DiskQuota != null)
                     hash = hash * 59 + this.DiskQuota.GetHashCode();
+                if (this.FtpQuota != null)
+                    hash = hash * 59 + this.FtpQuota.GetHashCode();
                 if (this.BandwidthQuota != null)
                     hash = hash * 59 + this.BandwidthQuota.GetHashCode();
-                if (this.StatsJsonUrl != null)
-                    hash = hash * 59 + this.StatsJsonUrl.GetHashCode();
+                if (this.DbQuota != null)
+                    hash = hash * 59 + this.DbQuota.GetHashCode();
+                if (this.DbMaxSize != null)
+                    hash = hash * 59 + this.DbMaxSize.GetHashCode();
                 if (this.Region != null)
                     hash = hash * 59 + this.Region.GetHashCode();
                 return hash;
@@ -244,12 +231,12 @@ namespace IO.Swagger.Models
 
         #region Operators
 
-        public static bool operator ==(HostingAccount left, HostingAccount right)
+        public static bool operator ==(HostingAccountUpdate left, HostingAccountUpdate right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(HostingAccount left, HostingAccount right)
+        public static bool operator !=(HostingAccountUpdate left, HostingAccountUpdate right)
         {
             return !Equals(left, right);
         }

@@ -46,7 +46,7 @@ namespace IO.Swagger.Controllers
         /// </summary>
         /// <remarks>This will search for an active provision engine and launch a task to provision a hosting account with specified parameters.</remarks>
         /// <param name="authorization">Access token</param>
-        /// <param name="hostingAccount">The hosting account details with package quotas.</param>
+        /// <param name="hostingAccountCreate">The hosting account details with package quotas.</param>
         /// <response code="202">Request is accepted and FabricTask is returned</response>
         /// <response code="400">Invalid input, object invalid</response>
         /// <response code="401">Invalid authorization token</response>
@@ -56,7 +56,7 @@ namespace IO.Swagger.Controllers
         [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting")]
         [SwaggerOperation("CreateHosting")]
         [SwaggerResponse(200, type: typeof(FabricTask))]
-        public virtual IActionResult CreateHosting([FromHeader]string authorization, [FromBody]HostingAccountRequest hostingAccount)
+        public virtual IActionResult CreateHosting([FromHeader]string authorization, [FromBody]HostingAccountCreate hostingAccountCreate)
         { 
             string exampleJson = null;
             
@@ -147,7 +147,7 @@ namespace IO.Swagger.Controllers
         /// <remarks>Allow changing of hosting account quotas. Potentially to be used to move HostingAccount to another cluster/region.</remarks>
         /// <param name="authorization">Access token</param>
         /// <param name="hostingName">hosting account name (primary domain)</param>
-        /// <param name="hostingAccount">The hosting account details with package quotas.</param>
+        /// <param name="hostingAccountUpdate">The hosting account details with package quotas.</param>
         /// <response code="202">FabricTask task details</response>
         /// <response code="401">Invalid authorization token</response>
         /// <response code="404">Failed to get hosting account</response>
@@ -156,7 +156,7 @@ namespace IO.Swagger.Controllers
         [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting/{hosting_name}")]
         [SwaggerOperation("ProvisioningHostingHostingNamePut")]
         [SwaggerResponse(200, type: typeof(FabricTask))]
-        public virtual IActionResult ProvisioningHostingHostingNamePut([FromHeader]string authorization, [FromRoute]string hostingName, [FromBody]HostingAccount hostingAccount)
+        public virtual IActionResult ProvisioningHostingHostingNamePut([FromHeader]string authorization, [FromRoute]string hostingName, [FromBody]HostingAccountUpdate hostingAccountUpdate)
         { 
             string exampleJson = null;
             
