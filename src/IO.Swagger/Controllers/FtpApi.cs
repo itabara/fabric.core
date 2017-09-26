@@ -47,7 +47,7 @@ namespace IO.Swagger.Controllers
         /// <remarks>Create a ftp user with required parameters </remarks>
         /// <param name="authorization">Access token</param>
         /// <param name="hostingName">hosting account (primary domain)</param>
-        /// <param name="ftpUserB">The ftp details</param>
+        /// <param name="ftpUser">The ftp details</param>
         /// <response code="202">FabricTask for FTPUserInfo edit</response>
         /// <response code="401">Invalid authorization token</response>
         /// <response code="404">Hosting not found</response>
@@ -57,7 +57,7 @@ namespace IO.Swagger.Controllers
         [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting/{hosting_name}/ftp")]
         [SwaggerOperation("CreateFtpUser")]
         [SwaggerResponse(200, type: typeof(FabricTask))]
-        public virtual IActionResult CreateFtpUser([FromHeader]string authorization, [FromRoute]string hostingName, [FromBody]FtpUserB ftpUserB)
+        public virtual IActionResult CreateFtpUser([FromHeader]string authorization, [FromRoute]string hostingName, [FromBody]FtpUser ftpUser)
         { 
             string exampleJson = null;
             
@@ -110,7 +110,7 @@ namespace IO.Swagger.Controllers
         [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting/{hosting_name}/ftp/{username}")]
         [SwaggerOperation("EditFtpUser")]
         [SwaggerResponse(200, type: typeof(FabricTask))]
-        public virtual IActionResult EditFtpUser([FromHeader]string authorization, [FromRoute]string hostingName, [FromRoute]string username, [FromBody]FtpUser ftpUser)
+        public virtual IActionResult EditFtpUser([FromHeader]string authorization, [FromRoute]string hostingName, [FromRoute]string username, [FromBody]FtpUser1 ftpUser)
         { 
             string exampleJson = null;
             
