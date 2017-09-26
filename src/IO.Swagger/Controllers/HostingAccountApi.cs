@@ -56,7 +56,7 @@ namespace IO.Swagger.Controllers
         [Route("/itabara/Fabric.Core/1.0.0/provisioning/hosting")]
         [SwaggerOperation("CreateHosting")]
         [SwaggerResponse(200, type: typeof(FabricTask))]
-        public virtual IActionResult CreateHosting([FromHeader]string authorization, [FromBody]HostingAccount hostingAccount)
+        public virtual IActionResult CreateHosting([FromHeader]string authorization, [FromBody]HostingAccountRequest hostingAccount)
         { 
             string exampleJson = null;
             
