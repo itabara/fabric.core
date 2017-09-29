@@ -1,9 +1,11 @@
 'use strict';
 
-exports.provisioningMiscHosting_nameIis_settingsGET = function(args, res, next) {
+exports.provisioningPackagePackage_idHostingHosting_account_idIis_settingsGET = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * hosting_name (Long)
+  * authorization (String)
+  * package_id (Long)
+  * hosting_account_id (Integer)
   **/
     var examples = {};
   examples['application/json'] = {
@@ -22,30 +24,24 @@ exports.provisioningMiscHosting_nameIis_settingsGET = function(args, res, next) 
   
 }
 
-exports.provisioningMiscHosting_nameIis_settingsPUT = function(args, res, next) {
+exports.provisioningPackagePackage_idHostingHosting_account_idIis_settingsPUT = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * hosting_name (String)
-  * framework_version (String)
-  * app_pool_mode (String)
-  * app_pool_status (String)
+  * authorization (String)
+  * package_id (Long)
+  * hosting_account_id (Integer)
+  * iisSettingsUpdate (IisSettingsUpdate)
   **/
-    var examples = {};
-  examples['application/json'] = "aeiou";
-  if(Object.keys(examples).length > 0) {
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
-  }
-  else {
-    res.end();
-  }
-  
+  // no response value expected for this operation
+  res.end();
 }
 
-exports.provisioningMiscHosting_nameLsDepthGET = function(args, res, next) {
+exports.provisioningPackagePackage_idHostingHosting_account_idLsDepthGET = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * hosting_name (String)
+  * authorization (String)
+  * package_id (Long)
+  * hosting_account_id (Integer)
   * depth (Integer)
   **/
     var examples = {};
@@ -60,10 +56,12 @@ exports.provisioningMiscHosting_nameLsDepthGET = function(args, res, next) {
   
 }
 
-exports.provisioningMiscHosting_nameSecurityAccessGET = function(args, res, next) {
+exports.provisioningPackagePackage_idHostingHosting_account_idSecurityAccessGET = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * hosting_name (String)
+  * authorization (String)
+  * package_id (Long)
+  * hosting_account_id (Integer)
   **/
     var examples = {};
   examples['application/json'] = [ {
@@ -81,15 +79,19 @@ exports.provisioningMiscHosting_nameSecurityAccessGET = function(args, res, next
   
 }
 
-exports.provisioningMiscHosting_nameSecurityAccessPOST = function(args, res, next) {
+exports.provisioningPackagePackage_idHostingHosting_account_idSecurityAccessPOST = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * hosting_name (String)
-  * ip_source (String)
-  * access_type (String)
+  * authorization (String)
+  * package_id (Long)
+  * hosting_account_id (Integer)
+  * securityRuleCreate (SecurityRuleCreate)
   **/
     var examples = {};
-  examples['application/json'] = "aeiou";
+  examples['application/json'] = {
+  "_utid" : "d290f1ee-6c54-4b01-90e6-d701748f0851",
+  "status" : "pending"
+};
   if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
@@ -100,14 +102,19 @@ exports.provisioningMiscHosting_nameSecurityAccessPOST = function(args, res, nex
   
 }
 
-exports.provisioningMiscHosting_nameSecurityAccessRule_idDELETE = function(args, res, next) {
+exports.provisioningPackagePackage_idHostingHosting_account_idSecurityAccessRule_idDELETE = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * hosting_name (String)
+  * authorization (String)
+  * package_id (Long)
+  * hosting_account_id (Integer)
   * rule_id (String)
   **/
     var examples = {};
-  examples['application/json'] = "aeiou";
+  examples['application/json'] = {
+  "_utid" : "d290f1ee-6c54-4b01-90e6-d701748f0851",
+  "status" : "pending"
+};
   if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
@@ -118,15 +125,20 @@ exports.provisioningMiscHosting_nameSecurityAccessRule_idDELETE = function(args,
   
 }
 
-exports.provisioningMiscHosting_nameSecurityAccessRule_idPUT = function(args, res, next) {
+exports.provisioningPackagePackage_idHostingHosting_account_idSecurityAccessRule_idPUT = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * hosting_name (String)
+  * authorization (String)
+  * package_id (Long)
+  * hosting_account_id (Integer)
   * rule_id (String)
-  * access_type (String)
+  * securityRuleUpdate (SecurityRuleUpdate)
   **/
     var examples = {};
-  examples['application/json'] = "aeiou";
+  examples['application/json'] = {
+  "_utid" : "d290f1ee-6c54-4b01-90e6-d701748f0851",
+  "status" : "pending"
+};
   if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));

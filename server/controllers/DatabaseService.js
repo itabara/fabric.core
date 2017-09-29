@@ -1,9 +1,11 @@
 'use strict';
 
-exports.provisioningHostingHosting_nameDatabaseDatabase_nameDELETE = function(args, res, next) {
+exports.provisioningPackagePackage_idHostingHosting_account_idDatabaseDatabase_nameDELETE = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * hosting_name (String)
+  * authorization (String)
+  * package_id (Long)
+  * hosting_account_id (Integer)
   * database_name (String)
   **/
     var examples = {};
@@ -21,13 +23,14 @@ exports.provisioningHostingHosting_nameDatabaseDatabase_nameDELETE = function(ar
   
 }
 
-exports.provisioningHostingHosting_nameDatabaseDatabase_namePUT = function(args, res, next) {
+exports.provisioningPackagePackage_idHostingHosting_account_idDatabaseDatabase_namePUT = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * hosting_name (String)
+  * authorization (String)
+  * package_id (Long)
+  * hosting_account_id (Integer)
   * database_name (String)
-  * db_size (Integer)
-  * users (List)
+  * databaseUpdate (DatabaseUpdate)
   **/
     var examples = {};
   examples['application/json'] = {
@@ -44,126 +47,12 @@ exports.provisioningHostingHosting_nameDatabaseDatabase_namePUT = function(args,
   
 }
 
-exports.provisioningHostingHosting_nameDatabaseUserGET = function(args, res, next) {
+exports.provisioningPackagePackage_idHostingHosting_account_idDatabaseGET = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * hosting_name (String)
-  **/
-    var examples = {};
-  examples['application/json'] = [ {
-  "databases" : [ {
-    "database_id" : "aeiou",
-    "permissions" : "aeiou"
-  } ],
-  "password" : "aeiou",
-  "user_id" : "db-user"
-} ];
-  if(Object.keys(examples).length > 0) {
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
-  }
-  else {
-    res.end();
-  }
-  
-}
-
-exports.provisioningHostingHosting_nameDatabaseUserPOST = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * hosting_name (String)
-  * username (String)
-  * password (String)
-  * grant (List)
-  **/
-    var examples = {};
-  examples['application/json'] = {
-  "_utid" : "d290f1ee-6c54-4b01-90e6-d701748f0851",
-  "status" : "pending"
-};
-  if(Object.keys(examples).length > 0) {
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
-  }
-  else {
-    res.end();
-  }
-  
-}
-
-exports.provisioningHostingHosting_nameDatabaseUserUser_nameDELETE = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * hosting_name (String)
-  * user_name (String)
-  **/
-    var examples = {};
-  examples['application/json'] = {
-  "_utid" : "d290f1ee-6c54-4b01-90e6-d701748f0851",
-  "status" : "pending"
-};
-  if(Object.keys(examples).length > 0) {
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
-  }
-  else {
-    res.end();
-  }
-  
-}
-
-exports.provisioningHostingHosting_nameDatabaseUserUser_nameGET = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * hosting_name (String)
-  * user_name (String)
-  **/
-    var examples = {};
-  examples['application/json'] = {
-  "databases" : [ {
-    "database_id" : "aeiou",
-    "permissions" : "aeiou"
-  } ],
-  "password" : "aeiou",
-  "user_id" : "db-user"
-};
-  if(Object.keys(examples).length > 0) {
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
-  }
-  else {
-    res.end();
-  }
-  
-}
-
-exports.provisioningHostingHosting_nameDatabaseUserUser_namePUT = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * hosting_name (String)
-  * user_name (String)
-  * password (String)
-  * grant (List)
-  **/
-    var examples = {};
-  examples['application/json'] = {
-  "_utid" : "d290f1ee-6c54-4b01-90e6-d701748f0851",
-  "status" : "pending"
-};
-  if(Object.keys(examples).length > 0) {
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
-  }
-  else {
-    res.end();
-  }
-  
-}
-
-exports.provisioningHostingHosting_nameDatabasesGET = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * hosting_name (String)
+  * authorization (String)
+  * package_id (Long)
+  * hosting_account_id (Integer)
   **/
     var examples = {};
   examples['application/json'] = [ {
@@ -180,7 +69,7 @@ exports.provisioningHostingHosting_nameDatabasesGET = function(args, res, next) 
       "permissions" : "aeiou"
     } ],
     "password" : "aeiou",
-    "user_id" : "db-user"
+    "db_username" : "db-user"
   } ]
 } ];
   if(Object.keys(examples).length > 0) {
@@ -193,21 +82,142 @@ exports.provisioningHostingHosting_nameDatabasesGET = function(args, res, next) 
   
 }
 
-exports.provisioningHostingHosting_nameDatabasesPOST = function(args, res, next) {
+exports.provisioningPackagePackage_idHostingHosting_account_idDatabasePOST = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * hosting_name (String)
-  * database_name (String)
-  * username (String)
-  * password (String)
-  * database_type (String)
-  * db_size (Integer)
+  * authorization (String)
+  * package_id (Long)
+  * hosting_account_id (Integer)
+  * databaseCreate (DatabaseCreate)
   **/
     var examples = {};
   examples['application/json'] = [ {
   "_utid" : "d290f1ee-6c54-4b01-90e6-d701748f0851",
   "status" : "pending"
 } ];
+  if(Object.keys(examples).length > 0) {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
+}
+
+exports.provisioningPackagePackage_idHostingHosting_account_idDatabaseUserDb_usernameDELETE = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+  * authorization (String)
+  * package_id (Long)
+  * hosting_account_id (Integer)
+  * db_username (String)
+  **/
+    var examples = {};
+  examples['application/json'] = {
+  "_utid" : "d290f1ee-6c54-4b01-90e6-d701748f0851",
+  "status" : "pending"
+};
+  if(Object.keys(examples).length > 0) {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
+}
+
+exports.provisioningPackagePackage_idHostingHosting_account_idDatabaseUserDb_usernameGET = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+  * authorization (String)
+  * package_id (Long)
+  * hosting_account_id (Integer)
+  * db_username (String)
+  **/
+    var examples = {};
+  examples['application/json'] = {
+  "databases" : [ {
+    "database_id" : "aeiou",
+    "permissions" : "aeiou"
+  } ],
+  "password" : "aeiou",
+  "db_username" : "db-user"
+};
+  if(Object.keys(examples).length > 0) {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
+}
+
+exports.provisioningPackagePackage_idHostingHosting_account_idDatabaseUserDb_usernamePUT = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+  * authorization (String)
+  * package_id (Long)
+  * hosting_account_id (Integer)
+  * db_username (String)
+  * databaseUserUpdate (DatabaseUserUpdate)
+  **/
+    var examples = {};
+  examples['application/json'] = {
+  "_utid" : "d290f1ee-6c54-4b01-90e6-d701748f0851",
+  "status" : "pending"
+};
+  if(Object.keys(examples).length > 0) {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
+}
+
+exports.provisioningPackagePackage_idHostingHosting_account_idDatabaseUserGET = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+  * authorization (String)
+  * package_id (Long)
+  * hosting_account_id (Integer)
+  **/
+    var examples = {};
+  examples['application/json'] = [ {
+  "databases" : [ {
+    "database_id" : "aeiou",
+    "permissions" : "aeiou"
+  } ],
+  "password" : "aeiou",
+  "db_username" : "db-user"
+} ];
+  if(Object.keys(examples).length > 0) {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
+}
+
+exports.provisioningPackagePackage_idHostingHosting_account_idDatabaseUserPOST = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+  * authorization (String)
+  * package_id (Long)
+  * hosting_account_id (Integer)
+  * databaseUserCreate (DatabaseUserCreate)
+  **/
+    var examples = {};
+  examples['application/json'] = {
+  "_utid" : "d290f1ee-6c54-4b01-90e6-d701748f0851",
+  "status" : "pending"
+};
   if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));

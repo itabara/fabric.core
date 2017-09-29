@@ -1,13 +1,14 @@
 ---
 swagger: "2.0"
 info:
-  description: "Wish Fabric API"
-  version: "1.0.0"
-  title: "Wish Fabric Api - Middleware to Fabric. SEE VERSION 1.0.1"
+  description: "Wish Fabric API (Integration)"
+  version: "1.0.1"
+  title: "Wish Fabric Api - Middleware to Fabric"
   contact:
     email: "you@your-company.com"
 host: "fabric-core.heg-development.com"
 tags:
+- name: "ServerPackage"
 - name: "HostingAccount"
 - name: "FTP"
 - name: "Database"
@@ -19,80 +20,127 @@ schemes:
 - "https"
 - "http"
 consumes:
+- "application/json"
 - "application/x-www-form-urlencoded"
 produces:
 - "application/json"
 paths:
-  /provisioning/hosting:
+  /provisioning/package:
+    post:
+      tags:
+      - "ServerPackage"
+      summary: "Provision a server package instance with limits defined by Brand API"
+      description: "This will create a server package instance. Package definition\
+        \ available at http://brand-api.heg-development.com/api/v1.0/windows/1\n"
+      operationId: "createServerPackage"
+      parameters:
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "package_info"
+        description: "The server package to be provisioned"
+        required: true
+        schema:
+          $ref: "#/definitions/ServerPackage"
+      responses:
+        202:
+          description: "Request is accepted and FabricTask '_utid' is returned"
+          schema:
+            $ref: "#/definitions/FabricTask"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "ServerPackage"
+  /provisioning/package/{package_id}/hosting:
     post:
       tags:
       - "HostingAccount"
       summary: "Provision a hosting account instance"
       description: "This will create a hosting account instance.\n"
-      operationId: "provisioningHostingPOST"
+      operationId: "provisioningPackagePackage_idHostingPOST"
       parameters:
-      - name: "hosting_name"
-        in: "formData"
-        description: "Hosting account (primary domain)"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
-      - name: "disk_quota"
-        in: "formData"
-        description: "Webspace quota in MB (0 for unlimited)"
+      - name: "package_id"
+        in: "path"
+        description: "Server package instance id"
         required: true
         type: "integer"
-        format: "int32"
-      - name: "ftp_quota"
-        in: "formData"
-        description: "Max number of FTP users (0 for unlimited)"
-        required: true
-        type: "integer"
-        format: "int32"
-      - name: "bandwidth_quota"
-        in: "formData"
-        description: "Bandwidth quota (0 for unlimited)"
+        format: "int64"
+      - in: "body"
+        name: "hosting_account"
+        description: "The hosting account details with package quotas."
         required: false
-        type: "integer"
-        format: "int32"
-      - name: "hosting_admin_email"
-        in: "formData"
-        description: "primary username (eg:admin@hosting)"
-        required: false
-        type: "string"
-        default: "admin"
-      - name: "region"
-        in: "formData"
-        description: "Allow region of provisioning"
-        required: false
-        type: "string"
+        schema:
+          $ref: "#/definitions/HostingAccount"
       responses:
-        200:
-          description: "FabricTask details"
+        202:
+          description: "Request is accepted and FabricTask '_utid' is returned"
           schema:
             $ref: "#/definitions/FabricTask"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        409:
+          description: "An existing 'hosting_name' already exists"
         default:
           description: "Unexpected error"
           schema:
             $ref: "#/definitions/Error"
       x-swagger-router-controller: "HostingAccount"
-  /provisioning/hosting/{hosting_name}:
+  /provisioning/package/{package_id}/hosting/{hosting_account_id}:
     get:
       tags:
       - "HostingAccount"
       summary: "Retrieve hosting account details"
       description: "Retrives hosting details\n"
-      operationId: "provisioningHostingHosting_nameGET"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idGET"
       parameters:
-      - name: "hosting_name"
-        in: "path"
-        description: "hosting account (primary domain)"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
+      - name: "package_id"
+        in: "path"
+        description: "Server package instance id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
+        type: "integer"
       responses:
         200:
-          description: "HostingAccount summary"
+          description: "HostingAccount details"
           schema:
             $ref: "#/definitions/HostingAccountInfo"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
         default:
           description: "Unexpected error"
           schema:
@@ -103,36 +151,43 @@ paths:
       - "HostingAccount"
       summary: "Allow disk quotas change. Potentially to be used to move HostingAccount\
         \ to another cluster."
-      operationId: "provisioningHostingHosting_namePUT"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idPUT"
       parameters:
-      - name: "hosting_name"
-        in: "path"
-        description: "hosting account (primary domain). Cannot be changed"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
-      - name: "disk_quota"
-        in: "formData"
-        description: "New storage size quota (MB) (O for unlimited)"
-        required: false
+      - name: "package_id"
+        in: "path"
+        description: "Server package instance id"
+        required: true
         type: "integer"
-        format: "int32"
-      - name: "ftp_quota"
-        in: "formData"
-        description: "Number of FTP users (O for unlimited)"
-        required: false
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
         type: "integer"
-        format: "int32"
-      - name: "bandwidth_quota"
-        in: "formData"
-        description: "Bandwidth quota (0 for unlimited)"
+      - in: "body"
+        name: "hosting_info"
+        description: "The hosting account details to be updated."
         required: false
-        type: "integer"
-        format: "int32"
+        schema:
+          $ref: "#/definitions/HostingAccount"
       responses:
-        200:
-          description: "FabricTask task details"
+        202:
+          description: "Request is accepted and FabricTask '_utid' is returned"
           schema:
             $ref: "#/definitions/FabricTask"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
         default:
           description: "Unexpected error"
           schema:
@@ -146,41 +201,79 @@ paths:
         \ Webspace data are moved to /backup/<snapshot> for x days and\nremoved from\
         \ original location. IIS details are removed. Optional LB info removed (ssl).\
         \ Additional ftp users removed/disabled. Log files\ninto /backup/snapshot/logs/archive.\n"
-      operationId: "provisioningHostingHosting_nameDELETE"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idDELETE"
       parameters:
-      - name: "hosting_name"
-        in: "path"
-        description: "hosting account (primary domain)"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
+      - name: "package_id"
+        in: "path"
+        description: "Server package instance id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
+        type: "integer"
       responses:
-        200:
-          description: "FabricTask task details"
+        202:
+          description: "Request is accepted and FabricTask '_utid' is returned"
           schema:
             $ref: "#/definitions/FabricTask"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
         default:
           description: "Unexpected error"
           schema:
             $ref: "#/definitions/Error"
       x-swagger-router-controller: "HostingAccount"
-  /provisioning/hosting/{hosting_name}/status:
+  /provisioning/package/{package_id}/hosting/{hosting_account_id}/status:
     get:
       tags:
       - "HostingAccount"
       summary: "Retrive HostingAccount status"
       description: "Get the status of HostingAccount\n"
-      operationId: "provisioningHostingHosting_nameStatusGET"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idStatusGET"
       parameters:
-      - name: "hosting_name"
-        in: "path"
-        description: "hosting account (primary domain)"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
+      - name: "package_id"
+        in: "path"
+        description: "Server package instance id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
+        type: "integer"
       responses:
         200:
           description: "Retrieve HostingAccount status"
           schema:
             $ref: "#/definitions/HostingAccountStatus"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
         default:
           description: "Unexpected error"
           schema:
@@ -191,13 +284,24 @@ paths:
       - "HostingAccount"
       summary: "Enable/Disable the HostingAccount"
       description: "It enable/disable the HostingAccount\n"
-      operationId: "provisioningHostingHosting_nameStatusPUT"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idStatusPUT"
       parameters:
-      - name: "hosting_name"
-        in: "path"
-        description: "hosting account (primary domain)"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
+      - name: "package_id"
+        in: "path"
+        description: "Server package instance id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
+        type: "integer"
       - name: "status"
         in: "formData"
         description: "change hosting account status (enable/disable)"
@@ -212,28 +316,47 @@ paths:
         required: false
         type: "string"
       responses:
-        200:
-          description: "Change HostingAccount status"
+        202:
+          description: "Request is accepted and FabricTask '_utid' is returned"
           schema:
             $ref: "#/definitions/FabricTask"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
         default:
           description: "Unexpected error"
           schema:
             $ref: "#/definitions/Error"
       x-swagger-router-controller: "HostingAccount"
-  /provisioning/hosting/{hosting_name}/ftp:
+  /provisioning/package/{package_id}/hosting/{hosting_account_id}/ftp:
     get:
       tags:
       - "FTP"
       summary: "Retrive the list of ftp accounts"
       description: "The list of ftp account info\n"
-      operationId: "provisioningHostingHosting_nameFtpGET"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idFtpGET"
       parameters:
-      - name: "hosting_name"
-        in: "path"
-        description: "hosting account (primary domain)"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
+      - name: "package_id"
+        in: "path"
+        description: "Server package instance id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
+        type: "integer"
       responses:
         200:
           description: "Array of FtpUserInfo"
@@ -241,6 +364,14 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/FtpUserInfo"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
         default:
           description: "Unexpected error"
           schema:
@@ -251,63 +382,92 @@ paths:
       - "FTP"
       summary: "Create a ftp user for current HostingAccount"
       description: "Create a ftp user with required parameters\n"
-      operationId: "provisioningHostingHosting_nameFtpPOST"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idFtpPOST"
       parameters:
-      - name: "hosting_name"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
+        required: true
+        type: "string"
+      - name: "package_id"
         in: "path"
-        description: "hosting account (primary domain)"
+        description: "Server package instance id"
         required: true
-        type: "string"
-      - name: "username"
-        in: "formData"
-        description: "FTP username"
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
         required: true
-        type: "string"
-      - name: "password"
-        in: "formData"
-        description: "FTP password (if not set, it will be generated by WISH Platform)"
+        type: "integer"
+      - in: "body"
+        name: "ftpUserCreate"
+        description: "The ftp details"
         required: false
-        type: "string"
-      - name: "account_path"
-        in: "formData"
-        description: "FTP account path relative to hosting webspace. (Default -> root)"
-        required: false
-        type: "string"
+        schema:
+          $ref: "#/definitions/ftpUserCreate"
       responses:
-        200:
-          description: "List of ftp users with details"
+        202:
+          description: "Request is accepted and FabricTask '_utid' is returned"
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/FtpUserInfo"
+            $ref: "#/definitions/FabricTask"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
+        409:
+          description: "An existing ftp 'username' already exists"
         default:
           description: "Unexpected error"
           schema:
             $ref: "#/definitions/Error"
       x-swagger-router-controller: "FTP"
-  /provisioning/hosting/{hosting_name}/ftp/{username}:
+  /provisioning/package/{package_id}/hosting/{hosting_account_id}/ftp/{ftp_username}:
     get:
       tags:
       - "FTP"
       summary: "Get ftp user"
       description: "Retrieves ftp user account details\n"
-      operationId: "provisioningHostingHosting_nameFtpUsernameGET"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idFtpFtp_usernameGET"
       parameters:
-      - name: "hosting_name"
-        in: "path"
-        description: "hosting account (primary domain)"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
-      - name: "username"
+      - name: "package_id"
         in: "path"
-        description: "ftp username"
+        description: "Server package instance id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
+        type: "integer"
+      - name: "ftp_username"
+        in: "path"
+        description: "Current FTP username"
         required: true
         type: "string"
       responses:
         200:
-          description: "FTPUserInfo"
+          description: "Retrieve the ftp details"
           schema:
             $ref: "#/definitions/FtpUserInfo"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
         default:
           description: "Unexpected error"
           schema:
@@ -318,38 +478,50 @@ paths:
       - "FTP"
       summary: "Edit ftp user details"
       description: "Edit ftp user. Cannot edit username.\n"
-      operationId: "provisioningHostingHosting_nameFtpUsernamePUT"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idFtpFtp_usernamePUT"
       parameters:
-      - name: "hosting_name"
-        in: "path"
-        description: "hosting account (primary domain)"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
-      - name: "username"
+      - name: "package_id"
         in: "path"
-        description: "ftp username"
+        description: "Server package instance id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
+        type: "integer"
+      - name: "ftp_username"
+        in: "path"
+        description: "Current FTP username"
         required: true
         type: "string"
-      - name: "password"
-        in: "formData"
-        description: "Change ftp user password"
+      - in: "body"
+        name: "ftpUserUpdate"
+        description: "The ftp details"
         required: false
-        type: "string"
-      - name: "ftp_quota"
-        in: "formData"
-        description: "Change ftp user quota"
-        required: false
-        type: "string"
-      - name: "ftp_path"
-        in: "formData"
-        description: "Change ftp account path"
-        required: false
-        type: "string"
+        schema:
+          $ref: "#/definitions/ftpUserUpdate"
       responses:
-        200:
-          description: "FabricTask for FTPUserInfo edit"
+        202:
+          description: "Request is accepted and FabricTask '_utid' is returned"
           schema:
             $ref: "#/definitions/FabricTask"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
+        409:
+          description: "An existing ftp 'username' already exists"
         default:
           description: "Unexpected error"
           schema:
@@ -361,41 +533,71 @@ paths:
       summary: "Delete ftp user"
       description: "It will remove the ftp user. Cannot remove primary ftp account\
         \ (admin@hosting_name)\n"
-      operationId: "provisioningHostingHosting_nameFtpUsernameDELETE"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idFtpFtp_usernameDELETE"
       parameters:
-      - name: "hosting_name"
-        in: "path"
-        description: "hosting account (primary domain)"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
-      - name: "username"
+      - name: "package_id"
         in: "path"
-        description: "ftp username"
+        description: "Server package instance id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
+        type: "integer"
+      - name: "ftp_username"
+        in: "path"
+        description: "Current FTP username"
         required: true
         type: "string"
       responses:
-        200:
-          description: "FabricTask for FTPUserInfo delete"
+        202:
+          description: "Request is accepted and FabricTask '_utid' is returned"
           schema:
             $ref: "#/definitions/FabricTask"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
         default:
           description: "Unexpected error"
           schema:
             $ref: "#/definitions/Error"
       x-swagger-router-controller: "FTP"
-  /provisioning/hosting/{hosting_name}/databases:
+  /provisioning/package/{package_id}/hosting/{hosting_account_id}/database:
     get:
       tags:
       - "Database"
       summary: "Retrieve hosting account databases list"
       description: "Retrives the list of provisioned databases with details\n"
-      operationId: "provisioningHostingHosting_nameDatabasesGET"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idDatabaseGET"
       parameters:
-      - name: "hosting_name"
-        in: "path"
-        description: "hosting account (primary domain)"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
+      - name: "package_id"
+        in: "path"
+        description: "Server package instance id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
+        type: "integer"
       responses:
         200:
           description: "Array of DatabaseInfo"
@@ -403,6 +605,14 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/DatabaseInfo"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
         default:
           description: "Unexpected error"
           schema:
@@ -414,76 +624,94 @@ paths:
       summary: "Provision a new database on hosting cluster"
       description: "Create a database instance with required parameters. We assume\
         \ a group of WebClusters will have own database cluster.\n"
-      operationId: "provisioningHostingHosting_nameDatabasesPOST"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idDatabasePOST"
       parameters:
-      - name: "hosting_name"
-        in: "path"
-        description: "hosting account (primary domain)"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
-      - name: "database_name"
-        in: "formData"
-        description: "Database username (if not set, it will be generated)"
-        required: false
-        type: "string"
-      - name: "username"
-        in: "formData"
-        description: "Database username (if not set, it will be generated)"
-        required: false
-        type: "string"
-      - name: "password"
-        in: "formData"
-        description: "Database password (if not set, it will be generated)"
-        required: false
-        type: "string"
-      - name: "database_type"
-        in: "formData"
-        description: "Database engine. Default Mysql engine"
-        required: false
-        type: "string"
-        enum:
-        - "Mysql"
-        - "MSsql"
-      - name: "db_size"
-        in: "formData"
-        description: "Max database size (MB)"
-        required: false
+      - name: "package_id"
+        in: "path"
+        description: "Server package instance id"
+        required: true
         type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
+        type: "integer"
+      - in: "body"
+        name: "databaseCreate"
+        description: "The database details."
+        required: false
+        schema:
+          $ref: "#/definitions/databaseCreate"
       responses:
-        200:
-          description: "Database details"
+        202:
+          description: "Create a database instance"
           schema:
             type: "array"
             items:
               $ref: "#/definitions/FabricTask"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
+        409:
+          description: "An existing database 'db_name' already exists"
         default:
           description: "Unexpected error"
           schema:
             $ref: "#/definitions/Error"
       x-swagger-router-controller: "Database"
-  /provisioning/hosting/{hosting_name}/database/{database_name}:
+  /provisioning/package/{package_id}/hosting/{hosting_account_id}/database/{database_name}:
     get:
       tags:
       - "HostingAccount"
       summary: "Query database info"
       description: "Retrieve database specific details\n"
-      operationId: "provisioningHostingHosting_nameDatabaseDatabase_nameGET"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idDatabaseDatabase_nameGET"
       parameters:
-      - name: "hosting_name"
-        in: "path"
-        description: "hosting account (primary domain)"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
+      - name: "package_id"
+        in: "path"
+        description: "Server package instance id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
+        type: "integer"
       - name: "database_name"
         in: "path"
-        description: "Database identifier"
+        description: "Database name"
         required: true
         type: "string"
       responses:
         200:
-          description: "Database Info"
+          description: "Database details"
           schema:
             $ref: "#/definitions/DatabaseInfo"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
         default:
           description: "Unexpected error"
           schema:
@@ -495,36 +723,48 @@ paths:
       summary: "Edit database details"
       description: "Edit database details. Support database id or name \"/provisioning/hosting/{hosting_name}/database/{database_name}\"\
         \n"
-      operationId: "provisioningHostingHosting_nameDatabaseDatabase_namePUT"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idDatabaseDatabase_namePUT"
       parameters:
-      - name: "hosting_name"
-        in: "path"
-        description: "hosting account (primary domain)"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
+      - name: "package_id"
+        in: "path"
+        description: "Server package instance id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
+        type: "integer"
       - name: "database_name"
         in: "path"
-        description: "Database identifier"
+        description: "Database name"
         required: true
         type: "string"
-      - name: "db_size"
-        in: "formData"
-        description: "Max database size (MB)"
+      - in: "body"
+        name: "databaseUpdate"
+        description: "The database details to be updated"
         required: false
-        type: "integer"
-      - name: "users"
-        in: "formData"
-        description: "List of users"
-        required: false
-        type: "array"
-        items:
-          type: "string"
-        collectionFormat: "multi"
+        schema:
+          $ref: "#/definitions/databaseUpdate"
       responses:
-        200:
-          description: "Database edit"
+        202:
+          description: "Request is accepted and FabricTask '_utid' is returned"
           schema:
             $ref: "#/definitions/FabricTask"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
         default:
           description: "Unexpected error"
           schema:
@@ -535,41 +775,71 @@ paths:
       - "Database"
       summary: "Remove database"
       description: "It will remove the database and move it to snapshot for 30 days.\n"
-      operationId: "provisioningHostingHosting_nameDatabaseDatabase_nameDELETE"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idDatabaseDatabase_nameDELETE"
       parameters:
-      - name: "hosting_name"
-        in: "path"
-        description: "hosting account (primary domain)"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
+      - name: "package_id"
+        in: "path"
+        description: "Server package instance id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
+        type: "integer"
       - name: "database_name"
         in: "path"
-        description: "Database identifier"
+        description: "Database name"
         required: true
         type: "string"
       responses:
-        200:
-          description: "Database delete"
+        202:
+          description: "Request is accepted and FabricTask '_utid' is returned"
           schema:
             $ref: "#/definitions/FabricTask"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
         default:
           description: "Unexpected error"
           schema:
             $ref: "#/definitions/Error"
       x-swagger-router-controller: "Database"
-  /provisioning/hosting/{hosting_name}/database/{database_name}/backups:
+  /provisioning/package/{package_id}/hosting/{hosting_account_id}/database/{database_name}/backup:
     get:
       tags:
       - "DatabaseBackup"
       summary: "Get database backups"
-      description: "Get database backups"
-      operationId: "provisioningHostingHosting_nameDatabaseDatabase_nameBackupsGET"
+      description: "Get the available backups for the database"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idDatabaseDatabase_nameBackupGET"
       parameters:
-      - name: "hosting_name"
-        in: "path"
-        description: "hosting account (primary domain)"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
+      - name: "package_id"
+        in: "path"
+        description: "Server package instance id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
+        type: "integer"
       - name: "database_name"
         in: "path"
         description: "Database name"
@@ -582,6 +852,14 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/BackupInfo"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
         default:
           description: "Unexpected error"
           schema:
@@ -590,44 +868,74 @@ paths:
     post:
       tags:
       - "DatabaseBackup"
-      summary: "Backup current database"
-      description: "Create a database backup with required parameters. No idea where\
-        \ platform will store it.\n"
-      operationId: "provisioningHostingHosting_nameDatabaseDatabase_nameBackupsPOST"
+      summary: "Backup specified database"
+      description: "Create a database backup with required parameters. The platform\
+        \ will store the backup file and provide relative path from customer webspace.\n"
+      operationId: "backupDatabase"
       parameters:
-      - name: "hosting_name"
-        in: "path"
-        description: "hosting account (primary domain)"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
+      - name: "package_id"
+        in: "path"
+        description: "Server package instance id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
+        type: "integer"
       - name: "database_name"
         in: "path"
         description: "Database name"
         required: true
         type: "string"
       responses:
-        200:
-          description: "Backup current database"
+        202:
+          description: "Request is accepted and FabricTask '_utid' is returned"
           schema:
             $ref: "#/definitions/FabricTask"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
         default:
           description: "Unexpected error"
           schema:
             $ref: "#/definitions/Error"
       x-swagger-router-controller: "DatabaseBackup"
-  /provisioning/hosting/{hosting_name}/database/{database_name}/restores:
+  /provisioning/package/{package_id}/hosting/{hosting_account_id}/database/{database_name}/restore:
     get:
       tags:
       - "DatabaseBackup"
       summary: "Get database restores"
-      description: "Get database restore history"
-      operationId: "provisioningHostingHosting_nameDatabaseDatabase_nameRestoresGET"
+      description: "Get database restores"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idDatabaseDatabase_nameRestoreGET"
       parameters:
-      - name: "hosting_name"
-        in: "path"
-        description: "hosting account (primary domain)"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
+      - name: "package_id"
+        in: "path"
+        description: "Server package instance id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
+        type: "integer"
       - name: "database_name"
         in: "path"
         description: "Database name"
@@ -635,11 +943,15 @@ paths:
         type: "string"
       responses:
         200:
-          description: "Backup current database"
+          description: "Retrieve the restore history for the database"
           schema:
             type: "array"
             items:
               $ref: "#/definitions/RestoreInfo"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting or database not found"
         default:
           description: "Unexpected error"
           schema:
@@ -648,49 +960,75 @@ paths:
     post:
       tags:
       - "DatabaseBackup"
-      summary: "Restore current database from last known backup for specified database."
-      description: "Restore a database backup with required parameters. No idea where\
-        \ platform will store it.\n"
-      operationId: "provisioningHostingHosting_nameDatabaseDatabase_nameRestoresPOST"
+      summary: "Restore database content from the specified backup"
+      description: "Restore database content from the specified backup\n"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idDatabaseDatabase_nameRestorePOST"
       parameters:
-      - name: "hosting_name"
-        in: "path"
-        description: "hosting account (primary domain)"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
+      - name: "package_id"
+        in: "path"
+        description: "Server package instance id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
+        type: "integer"
       - name: "database_name"
         in: "path"
-        description: "Database name to be restored to."
+        description: "Database name"
         required: true
         type: "string"
-      - name: "username"
-        in: "formData"
-        description: "Database username (if not set, it will be generated)"
+      - in: "body"
+        name: "databaseRestore"
+        description: "The database details."
         required: false
-        type: "string"
+        schema:
+          $ref: "#/definitions/databaseRestore"
       responses:
-        200:
-          description: "Restore current database"
+        202:
+          description: "Restore the backup content into database"
           schema:
             $ref: "#/definitions/FabricTask"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting or database not found"
         default:
           description: "Unexpected error"
           schema:
             $ref: "#/definitions/Error"
       x-swagger-router-controller: "DatabaseBackup"
-  /provisioning/hosting/{hosting_name}/database/user:
+  /provisioning/package/{package_id}/hosting/{hosting_account_id}/database/user:
     get:
       tags:
       - "Database"
       summary: "Retrieve a list of database users"
       description: "Retrieve the list of database users for a hosting account\n"
-      operationId: "provisioningHostingHosting_nameDatabaseUserGET"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idDatabaseUserGET"
       parameters:
-      - name: "hosting_name"
-        in: "path"
-        description: "hosting account (primary domain)"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
+      - name: "package_id"
+        in: "path"
+        description: "Server package instance id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
+        type: "integer"
       responses:
         200:
           description: "Retrieve the list of database users for a hosting account"
@@ -698,6 +1036,14 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/DatabaseUserInfo"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
         default:
           description: "Unexpected error"
           schema:
@@ -708,57 +1054,74 @@ paths:
       - "Database"
       summary: "Create a new database user"
       description: "Create a new database user\n"
-      operationId: "provisioningHostingHosting_nameDatabaseUserPOST"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idDatabaseUserPOST"
       parameters:
-      - name: "hosting_name"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
+        required: true
+        type: "string"
+      - name: "package_id"
         in: "path"
-        description: "hosting account (primary domain)"
+        description: "Server package instance id"
         required: true
-        type: "string"
-      - name: "username"
-        in: "formData"
-        description: "server username"
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
         required: true
-        type: "string"
-      - name: "password"
-        in: "formData"
-        description: "password (autogenerated if not provided)"
+        type: "integer"
+      - in: "body"
+        name: "databaseUserCreate"
+        description: "The database user details"
         required: false
-        type: "string"
-      - name: "grant"
-        in: "formData"
-        description: "array of type Grant"
-        required: false
-        type: "array"
-        items:
-          type: "string"
-        collectionFormat: "multi"
+        schema:
+          $ref: "#/definitions/databaseUserCreate"
       responses:
-        200:
-          description: "Create a new database user on cluster and optionally grant\
-            \ permissions to a set of databases"
+        202:
+          description: "Request is accepted and FabricTask '_utid' is returned"
           schema:
             $ref: "#/definitions/FabricTask"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
         default:
           description: "Unexpected error"
           schema:
             $ref: "#/definitions/Error"
       x-swagger-router-controller: "Database"
-  /provisioning/hosting/{hosting_name}/database/user/{user_name}:
+  /provisioning/package/{package_id}/hosting/{hosting_account_id}/database/user/{db_username}:
     get:
       tags:
       - "Database"
       summary: "Get an existing database user"
-      operationId: "provisioningHostingHosting_nameDatabaseUserUser_nameGET"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idDatabaseUserDb_usernameGET"
       parameters:
-      - name: "hosting_name"
-        in: "path"
-        description: "hosting account (primary domain)"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
-      - name: "user_name"
+      - name: "package_id"
         in: "path"
-        description: "user identifier"
+        description: "Server package instance id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
+        type: "integer"
+      - name: "db_username"
+        in: "path"
+        description: "Database user identifier"
         required: true
         type: "string"
       responses:
@@ -766,6 +1129,14 @@ paths:
           description: "Get an existing database user"
           schema:
             $ref: "#/definitions/DatabaseUserInfo"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
         default:
           description: "Unexpected error"
           schema:
@@ -775,36 +1146,48 @@ paths:
       tags:
       - "Database"
       summary: "Update an existing database user"
-      operationId: "provisioningHostingHosting_nameDatabaseUserUser_namePUT"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idDatabaseUserDb_usernamePUT"
       parameters:
-      - name: "hosting_name"
-        in: "path"
-        description: "Hosting account (primary domain)"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
-      - name: "user_name"
+      - name: "package_id"
         in: "path"
-        description: "User identifier"
+        description: "Server package instance id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
+        type: "integer"
+      - name: "db_username"
+        in: "path"
+        description: "Database user identifier"
         required: true
         type: "string"
-      - name: "password"
-        in: "formData"
-        description: "password (autogenerated if not provided)"
+      - in: "body"
+        name: "databaseUserUpdate"
+        description: "The database user details"
         required: false
-        type: "string"
-      - name: "grant"
-        in: "formData"
-        description: "array of type Grant"
-        required: false
-        type: "array"
-        items:
-          type: "string"
-        collectionFormat: "multi"
+        schema:
+          $ref: "#/definitions/databaseUserUpdate"
       responses:
-        200:
-          description: "Update an existing database user"
+        202:
+          description: "Request is accepted and FabricTask '_utid' is returned"
           schema:
             $ref: "#/definitions/FabricTask"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
         default:
           description: "Unexpected error"
           schema:
@@ -814,146 +1197,251 @@ paths:
       tags:
       - "Database"
       summary: "Delete an existing database user"
-      operationId: "provisioningHostingHosting_nameDatabaseUserUser_nameDELETE"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idDatabaseUserDb_usernameDELETE"
       parameters:
-      - name: "hosting_name"
-        in: "path"
-        description: "hosting account (primary domain)"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
-      - name: "user_name"
+      - name: "package_id"
         in: "path"
-        description: "user identifier"
+        description: "Server package instance id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
+        type: "integer"
+      - name: "db_username"
+        in: "path"
+        description: "Database user identifier"
         required: true
         type: "string"
       responses:
-        200:
-          description: "Delete an existing database user"
+        202:
+          description: "Request is accepted and FabricTask '_utid' is returned"
           schema:
             $ref: "#/definitions/FabricTask"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
         default:
           description: "Unexpected error"
           schema:
             $ref: "#/definitions/Error"
       x-swagger-router-controller: "Database"
-  /provisioning/hosting/{hosting_name}/backups:
+  /provisioning/package/{package_id}/hosting/{hosting_account_id}/backup:
     get:
       tags:
-      - "HostingBackup"
-      summary: "Get webspace backups"
+      - "Backup"
+      summary: "Get the list of backups"
       description: "Get list of available webspace backups\n"
-      operationId: "provisioningHostingHosting_nameBackupsGET"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idBackupGET"
       parameters:
-      - name: "hosting_name"
-        in: "path"
-        description: "hosting account (primary domain)"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
+      - name: "package_id"
+        in: "path"
+        description: "Server package instance id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
+        type: "integer"
       responses:
         200:
-          description: "List of"
+          description: "List of available hosting backups"
           schema:
             $ref: "#/definitions/BackupInfo"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
         default:
           description: "Unexpected error"
           schema:
             $ref: "#/definitions/Error"
-      x-swagger-router-controller: "HostingBackup"
+      x-swagger-router-controller: "Backup"
     post:
       tags:
-      - "HostingBackup"
-      summary: "Backup current webspace"
-      description: "Create a webspace backup with required parameters. No idea where\
-        \ platform will store it.\n"
-      operationId: "provisioningHostingHosting_nameBackupsPOST"
+      - "Backup"
+      summary: "Backup the webspace of the hosting account"
+      description: "Create a webspace backup with specified parameters. Platform will\
+        \ manage the backup location and archives file(s)\n"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idBackupPOST"
       parameters:
-      - name: "hosting_name"
-        in: "path"
-        description: "hosting account (primary domain)"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
-      - name: "backup_source"
-        in: "formData"
-        description: "Path to folders to backup (if root, then full backup)"
+      - name: "package_id"
+        in: "path"
+        description: "Server package instance id"
         required: true
-        type: "array"
-        items:
-          type: "string"
-        collectionFormat: "multi"
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
+        type: "integer"
+      - in: "body"
+        name: "backupSource"
+        description: "Path to folders to backup (if root, then full backup)"
+        required: false
+        schema:
+          $ref: "#/definitions/backupSource"
       responses:
-        200:
-          description: "Backup current webspace"
+        202:
+          description: "Request is accepted and FabricTask '_utid' is returned"
           schema:
             $ref: "#/definitions/FabricTask"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
         default:
           description: "Unexpected error"
           schema:
             $ref: "#/definitions/Error"
-      x-swagger-router-controller: "HostingBackup"
-  /provisioning/hosting/{hosting_name}/restores:
+      x-swagger-router-controller: "Backup"
+  /provisioning/package/{package_id}/hosting/{hosting_account_id}/restore:
     get:
       tags:
-      - "HostingBackup"
-      summary: "Get hosting restoration history"
-      description: "Get hosting restoration history"
-      operationId: "provisioningHostingHosting_nameRestoresGET"
+      - "Backup"
+      summary: "Get hosting restoration history/logs"
+      description: "Get hosting restoration history/logs"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idRestoreGET"
       parameters:
-      - name: "hosting_name"
-        in: "path"
-        description: "hosting account (primary domain)"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
+      - name: "package_id"
+        in: "path"
+        description: "Server package instance id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
+        type: "integer"
       responses:
         200:
-          description: "Restore current webspace"
+          description: "Retrieve the hosting restoration history, the log of the unzip/write\
+            \ operation"
           schema:
             $ref: "#/definitions/RestoreInfo"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
         default:
           description: "Unexpected error"
           schema:
             $ref: "#/definitions/Error"
-      x-swagger-router-controller: "HostingBackup"
+      x-swagger-router-controller: "Backup"
     post:
       tags:
-      - "HostingBackup"
-      summary: "Restore current webspace from last known backup for specified webspace."
-      description: "Restore a webspace backup with required parameters. No idea where\
-        \ platform will store it.\n"
-      operationId: "provisioningHostingHosting_nameRestoresPOST"
+      - "Backup"
+      summary: "Restore webspace content from specified backup file."
+      description: "Restore a webspace backup from specified archive.\n"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idRestorePOST"
       parameters:
-      - name: "hosting_name"
-        in: "path"
-        description: "hosting account (primary domain)"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
-      - name: "archieve_name"
-        in: "formData"
-        description: "if not provided restore last backup"
+      - name: "package_id"
+        in: "path"
+        description: "Server package instance id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
+        type: "integer"
+      - in: "body"
+        name: "webspaceRestore"
+        description: "If not provided then restore latest backup file"
         required: false
-        type: "string"
+        schema:
+          $ref: "#/definitions/webspaceRestore"
       responses:
-        200:
-          description: "Restore current webspace"
+        202:
+          description: "Request is accepted and FabricTask '_utid' is returned"
           schema:
             $ref: "#/definitions/FabricTask"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
         default:
           description: "Unexpected error"
           schema:
             $ref: "#/definitions/Error"
-      x-swagger-router-controller: "HostingBackup"
-  /provisioning/misc/{hosting_name}/ls/{depth}:
+      x-swagger-router-controller: "Backup"
+  /provisioning/package/{package_id}/hosting/{hosting_account_id}/ls/{depth}:
     get:
       tags:
       - "Misc"
       summary: "Retrieve list of dirs starting from hosting's root folder"
       description: "Retrieve list of dirs starting from hosting's root folder"
-      operationId: "provisioningMiscHosting_nameLsDepthGET"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idLsDepthGET"
       parameters:
-      - name: "hosting_name"
-        in: "path"
-        description: "hosting account (primary domain)"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
+      - name: "package_id"
+        in: "path"
+        description: "Server package instance id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
+        type: "integer"
       - name: "depth"
         in: "path"
         description: "depth level of folders to display"
@@ -961,34 +1449,57 @@ paths:
         type: "integer"
       responses:
         200:
-          description: "List of dirs (JSON)"
+          description: "List of hierarchy dirs (JSON)"
           schema:
             type: "string"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
         default:
           description: "Unexpected error"
           schema:
             $ref: "#/definitions/Error"
       x-swagger-router-controller: "Misc"
-  /provisioning/misc/{hosting_name}/security/access:
+  /provisioning/package/{package_id}/hosting/{hosting_account_id}/security/access:
     get:
       tags:
       - "Misc"
       summary: "Retrieve list of IP access security rules"
       description: "Retrieve list of IP access security rules"
-      operationId: "provisioningMiscHosting_nameSecurityAccessGET"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idSecurityAccessGET"
       parameters:
-      - name: "hosting_name"
-        in: "path"
-        description: "hosting account (primary domain)"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
+      - name: "package_id"
+        in: "path"
+        description: "Server package instance id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
+        type: "integer"
       responses:
         200:
-          description: "list of IP Security Rules (JSON)"
+          description: "list of IP Security Rules"
           schema:
             type: "array"
             items:
               $ref: "#/definitions/IPSecurity"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
         default:
           description: "Unexpected error"
           schema:
@@ -999,67 +1510,96 @@ paths:
       - "Misc"
       summary: "Add IP access security rule"
       description: "Add IP access security rule"
-      operationId: "provisioningMiscHosting_nameSecurityAccessPOST"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idSecurityAccessPOST"
       parameters:
-      - name: "hosting_name"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
+        required: true
+        type: "string"
+      - name: "package_id"
         in: "path"
-        description: "hosting account (primary domain)"
+        description: "Server package instance id"
         required: true
-        type: "string"
-      - name: "ip_source"
-        in: "formData"
-        description: "source ip of the request"
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
         required: true
-        type: "string"
-      - name: "access_type"
-        in: "formData"
-        description: "allow or Deny"
+        type: "integer"
+      - in: "body"
+        name: "securityRuleCreate"
+        description: "Security rule details"
         required: true
-        type: "string"
-        enum:
-        - "allow"
-        - "deny"
+        schema:
+          $ref: "#/definitions/securityRuleCreate"
       responses:
-        200:
-          description: "Identifier for new rule"
+        202:
+          description: "Request is accepted and FabricTask '_utid' is returned"
           schema:
-            type: "string"
+            $ref: "#/definitions/FabricTask"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
         default:
           description: "Unexpected error"
           schema:
             $ref: "#/definitions/Error"
       x-swagger-router-controller: "Misc"
-  /provisioning/misc/{hosting_name}/security/access/{rule_id}:
+  /provisioning/package/{package_id}/hosting/{hosting_account_id}/security/access/{rule_id}:
     put:
       tags:
       - "Misc"
       summary: "Modify IP access security rule"
       description: "Modify IP access security rule"
-      operationId: "provisioningMiscHosting_nameSecurityAccessRule_idPUT"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idSecurityAccessRule_idPUT"
       parameters:
-      - name: "hosting_name"
-        in: "path"
-        description: "hosting account (primary domain)"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
+      - name: "package_id"
+        in: "path"
+        description: "Server package instance id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
+        type: "integer"
       - name: "rule_id"
         in: "path"
         description: "ip rule identifier"
         required: true
         type: "string"
-      - name: "access_type"
-        in: "formData"
-        description: "allow or Deny"
+      - in: "body"
+        name: "securityRuleUpdate"
+        description: "Security rule updates"
         required: true
-        type: "string"
-        enum:
-        - "allow"
-        - "deny"
+        schema:
+          $ref: "#/definitions/securityRuleUpdate"
       responses:
-        200:
-          description: "Operation status"
+        202:
+          description: "Request is accepted and FabricTask '_utid' is returned"
           schema:
-            type: "string"
+            $ref: "#/definitions/FabricTask"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
         default:
           description: "Unexpected error"
           schema:
@@ -1070,46 +1610,84 @@ paths:
       - "Misc"
       summary: "Remove IP access security rule"
       description: "Remove IP access security rule"
-      operationId: "provisioningMiscHosting_nameSecurityAccessRule_idDELETE"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idSecurityAccessRule_idDELETE"
       parameters:
-      - name: "hosting_name"
-        in: "path"
-        description: "hosting account (primary domain)"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
+      - name: "package_id"
+        in: "path"
+        description: "Server package instance id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
+        type: "integer"
       - name: "rule_id"
         in: "path"
         description: "ip rule identifier"
         required: true
         type: "string"
       responses:
-        200:
-          description: "Operation status"
+        202:
+          description: "Request is accepted and FabricTask '_utid' is returned"
           schema:
-            type: "string"
+            $ref: "#/definitions/FabricTask"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
         default:
           description: "Unexpected error"
           schema:
             $ref: "#/definitions/Error"
       x-swagger-router-controller: "Misc"
-  /provisioning/misc/{hosting_name}/iis_settings:
+  /provisioning/package/{package_id}/hosting/{hosting_account_id}/iis_settings:
     get:
       tags:
       - "Misc"
-      summary: "Get all iis settings for hosting"
-      operationId: "provisioningMiscHosting_nameIis_settingsGET"
+      summary: "Get IIS settings for hosting account"
+      description: "Get IIS settings settings"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idIis_settingsGET"
       parameters:
-      - name: "hosting_name"
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
+        required: true
+        type: "string"
+      - name: "package_id"
         in: "path"
-        description: ""
+        description: "Server package instance id"
         required: true
         type: "integer"
         format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
+        type: "integer"
       responses:
         200:
           description: "Success"
           schema:
             $ref: "#/definitions/AppPoolInfo"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
         default:
           description: "Unexpected error"
           schema:
@@ -1119,45 +1697,41 @@ paths:
       tags:
       - "Misc"
       summary: "Update an IIS Setting"
-      operationId: "provisioningMiscHosting_nameIis_settingsPUT"
+      operationId: "provisioningPackagePackage_idHostingHosting_account_idIis_settingsPUT"
       parameters:
-      - name: "hosting_name"
-        in: "path"
-        description: ""
+      - name: "authorization"
+        in: "header"
+        description: "Access token"
         required: true
         type: "string"
-      - name: "framework_version"
-        in: "formData"
-        description: "asp net framework version"
-        required: false
-        type: "string"
-        enum:
-        - "Classic"
-        - "Integrated"
-      - name: "app_pool_mode"
-        in: "formData"
-        description: "application pool mode"
-        required: false
-        type: "string"
-        enum:
-        - "v1_1"
-        - "v2_0"
-        - "v4_0"
-      - name: "app_pool_status"
-        in: "formData"
-        description: "application pool status"
-        required: false
-        type: "string"
-        enum:
-        - "started"
-        - "stopped"
-        - "recycle"
-        - "unknown"
+      - name: "package_id"
+        in: "path"
+        description: "Server package instance id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "hosting_account_id"
+        in: "path"
+        description: "Hosting account unique id (PK). Cannot be changed."
+        required: true
+        type: "integer"
+      - in: "body"
+        name: "iisSettingsUpdate"
+        description: "IIS Settings"
+        required: true
+        schema:
+          $ref: "#/definitions/iisSettingsUpdate"
       responses:
-        200:
-          description: "Success"
+        202:
+          $ref: "#/responses/#responses/202Accepted"
+        400:
+          description: "Bad request"
           schema:
-            type: "string"
+            $ref: "#/definitions/Error"
+        401:
+          description: "Invalid authorization token"
+        404:
+          description: "Hosting account not found"
         default:
           description: "Unexpected error"
           schema:
@@ -1178,6 +1752,8 @@ paths:
 definitions:
   FabricTask:
     type: "object"
+    required:
+    - "_utid"
     properties:
       _utid:
         type: "string"
@@ -1192,31 +1768,69 @@ definitions:
         - "pending"
         - "completed"
         - "error"
-  HostingAccountStatus:
+  ServerPackage:
     type: "object"
     required:
+    - "package_id"
+    properties:
+      package_id:
+        type: "integer"
+        format: "int64"
+        description: "server package instance id (PK)"
+      disk_quota:
+        $ref: "#/definitions/QuotaInfo"
+      ftp_quota:
+        $ref: "#/definitions/QuotaInfo"
+      bandwidth_quota:
+        $ref: "#/definitions/QuotaInfo"
+      db_quota:
+        $ref: "#/definitions/QuotaInfo"
+      db_max_size:
+        $ref: "#/definitions/QuotaInfo"
+      region:
+        type: "string"
+        description: "Allow region of provisioning"
+    example:
+      default: "{\n  \"package_id\": \"100001\",\n  \"disk_quota\": {\n    \"max_available\"\
+        : 10240,\n    \"details\": \"MB\"\n  },\n  \"ftp_quota\": {\n    \"max_available\"\
+        : 5,\n    \"details\": \"count\"\n  },\n  \"bandwidth_quota\": {\n    \"unlimited\"\
+        : true,\n    \"details\": \"MB\"\n  },\n  \"db_quota\": {\n    \"max_available\"\
+        : 10,\n    \"details\": \"count\"\n  },\n  \"db_max_size\": {\n    \"max_available\"\
+        : 1024,\n    \"details\": \"MB\"\n  },\n  region: 'Europe'\n}"
+  HostingAccount:
+    type: "object"
+    required:
+    - "hosting_account_id"
     - "hosting_name"
     properties:
+      hosting_account_id:
+        type: "integer"
+        format: "int64"
+        example: 1234567
+        description: "Fabric hosting_acount_id (PK)"
+        readOnly: true
       hosting_name:
         type: "string"
-        example: "example.com"
         description: "HostingAccount name (primary domain)"
+      hosting_admin_email:
+        type: "string"
+        description: "admin email for hosting account"
+  HostingAccountStatus:
+    type: "object"
+    properties:
       status:
         type: "string"
-        example: "enabled"
         description: "HostingAccount status"
         enum:
         - "enabled"
         - "disabled"
       comments:
         type: "string"
-        example: "Enabled after successful payment"
         description: "Reason of enable/disable change"
   HostingAccountInfo:
     type: "object"
     required:
     - "hosting_account_id"
-    - "hosting_name"
     properties:
       hosting_account_id:
         type: "integer"
@@ -1241,15 +1855,21 @@ definitions:
     properties:
       max_available:
         type: "integer"
-        description: "Max quota for X feature"
+        description: "max quota for feature 'X'"
       consumed:
         type: "integer"
-        description: "Consumed for X feature"
+        description: "consumed for feature 'X'"
+      unlimited:
+        type: "boolean"
+        description: "feature is 'unlimited'/'unmetered'"
       details:
         type: "string"
-        description: "Quota size measure unit (eg. MB)"
+        description: "quota size measure unit (eg. MB)"
   FtpUserInfo:
     type: "object"
+    required:
+    - "user_id"
+    - "username"
     properties:
       user_id:
         type: "string"
@@ -1268,6 +1888,9 @@ definitions:
         description: "FTP account directory"
   DatabaseInfo:
     type: "object"
+    required:
+    - "database_id"
+    - "database_name"
     properties:
       database_id:
         type: "integer"
@@ -1304,8 +1927,10 @@ definitions:
         description: "Friendly DB connection string (eg. ssl, port, etc)"
   DatabaseUserInfo:
     type: "object"
+    required:
+    - "db_username"
     properties:
-      user_id:
+      db_username:
         type: "string"
         example: "db-user"
         description: "Database user identifier"
@@ -1317,6 +1942,8 @@ definitions:
           $ref: "#/definitions/Grant"
   Grant:
     type: "object"
+    required:
+    - "database_id"
     properties:
       database_id:
         type: "string"
@@ -1344,6 +1971,8 @@ definitions:
         - "deny"
   BackupInfo:
     type: "object"
+    required:
+    - "name"
     properties:
       name:
         type: "string"
@@ -1364,13 +1993,32 @@ definitions:
         type: "string"
         format: "date-time"
   RestoreInfo:
-    allOf:
-    - $ref: "#/definitions/BackupInfo"
-    - properties:
-        error:
-          type: "string"
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      type:
+        type: "string"
+        description: "Web Space or database"
+        enum:
+        - "storage"
+        - "database"
+      status:
+        type: "string"
+        description: "operation status"
+        enum:
+        - "completed"
+        - "inprogress"
+        - "faulted"
+      completed_date:
+        type: "string"
+        format: "date-time"
+      error:
+        type: "string"
   AppPoolInfo:
     type: "object"
+    required:
+    - "name"
     properties:
       name:
         type: "string"
@@ -1397,6 +2045,8 @@ definitions:
         - "unknown"
   Error:
     type: "object"
+    required:
+    - "code"
     properties:
       code:
         type: "integer"
@@ -1405,3 +2055,292 @@ definitions:
         type: "string"
       fields:
         type: "string"
+  ftpUserCreate:
+    type: "object"
+    properties:
+      username:
+        type: "string"
+        description: "Ftp username"
+      quota:
+        type: "integer"
+        description: "Ftp account quota"
+      ftp_path:
+        type: "string"
+        description: "Ftp account directory"
+    example:
+      username: "ftp@example.com"
+      quota: 200
+      ftp_path: "/www-data"
+  ftpUserUpdate:
+    type: "object"
+    properties:
+      username:
+        type: "string"
+        description: "Ftp username"
+      quota:
+        type: "integer"
+        description: "Ftp account quota"
+      ftp_path:
+        type: "string"
+        description: "Ftp account directory"
+    example:
+      username: "ftp_changed@example.com"
+      quota: 500
+      ftp_path: "/www-data"
+  databaseCreate:
+    type: "object"
+    required:
+    - "database_name"
+    - "database_type"
+    - "db_size"
+    - "db_user"
+    properties:
+      database_name:
+        type: "string"
+        description: "Database name"
+      db_user:
+        type: "string"
+        description: "Database username"
+      database_type:
+        type: "string"
+        description: "Database Engine. Default MSSQL ?"
+        enum:
+        - "MSsql"
+        - "Mysql"
+      db_size:
+        type: "integer"
+        format: "int64"
+        description: "Max database size"
+    example:
+      database_name: "db_example"
+      database_type: "Mysql"
+      db_user: "user_001"
+      db_size: 1024
+  databaseUpdate:
+    type: "object"
+    required:
+    - "db_size"
+    - "db_users"
+    properties:
+      db_users:
+        type: "array"
+        description: "Array of database users"
+        items:
+          type: "string"
+          description: "database username"
+      db_size:
+        type: "integer"
+        format: "int64"
+        description: "Max database size"
+    example:
+      db_users:
+      - "user_001"
+      - "user_002"
+      db_size: 1024
+  databaseRestore:
+    type: "object"
+    properties:
+      file_name:
+        type: "string"
+        description: "Database backup file"
+  databaseUserCreate:
+    type: "object"
+    required:
+    - "db_username"
+    properties:
+      db_username:
+        type: "string"
+        description: "database username"
+      password:
+        type: "string"
+        description: "password (autogenerated if not provided)"
+      grant:
+        type: "array"
+        description: "grant type list"
+        items:
+          type: "string"
+          enum:
+          - "read"
+          - "write"
+          - "admin"
+    example:
+      db_username: "user_001"
+      grant:
+      - "admin"
+      - "write"
+  databaseUserUpdate:
+    type: "object"
+    properties:
+      password:
+        type: "string"
+        description: "password (autogenerated if not provided)"
+      grant:
+        type: "array"
+        description: "grant type list"
+        items:
+          type: "string"
+          enum:
+          - "read"
+          - "write"
+          - "admin"
+    example:
+      password: "mystrongpassword"
+      grant:
+      - "admin"
+      - "write"
+  backupSource:
+    type: "object"
+    properties:
+      paths:
+        type: "array"
+        description: "Array of paths to be backup"
+        items:
+          type: "string"
+    example:
+      paths:
+      - "file1.txt"
+      - "/dir/file2.txt"
+  webspaceRestore:
+    type: "object"
+    properties:
+      file_name:
+        type: "string"
+        description: "the filename of the restore file"
+    example:
+      file_name: "2017-01-01-www.example.com.tar.gz"
+  securityRuleCreate:
+    type: "object"
+    properties:
+      ip_source:
+        type: "string"
+        description: "source ip of the request"
+      access_type:
+        type: "string"
+        description: "Allow or Deny"
+        enum:
+        - "allow"
+        - "deny"
+    example:
+      ip_source: "127.0.0.1/24"
+      access_type: "allow"
+  securityRuleUpdate:
+    type: "object"
+    properties:
+      ip_source:
+        type: "string"
+        description: "source ip of the request"
+      access_type:
+        type: "string"
+        description: "Allow or Deny"
+        enum:
+        - "allow"
+        - "deny"
+    example:
+      ip_source: "192.168.0.0/24"
+      access_type: "deny"
+  iisSettingsUpdate:
+    type: "object"
+    properties:
+      pipeline:
+        type: "string"
+        description: "type"
+        enum:
+        - "classic"
+        - "managed"
+      clr_version:
+        type: "string"
+        description: "runtime"
+        enum:
+        - "v1.1"
+        - "v2.0"
+        - "v4.0"
+      status:
+        type: "string"
+        description: "status"
+        enum:
+        - "Running"
+        - "Disabled"
+    example:
+      pipeline: "classic"
+      clr_version: "v4.0"
+      status: "Running"
+parameters:
+  authorization:
+    name: "authorization"
+    in: "header"
+    description: "Access token"
+    required: true
+    type: "string"
+  package_id:
+    name: "package_id"
+    in: "path"
+    description: "Server package instance id"
+    required: true
+    type: "integer"
+    format: "int64"
+  hosting_account_id:
+    name: "hosting_account_id"
+    in: "path"
+    description: "Hosting account unique id (PK). Cannot be changed."
+    required: true
+    type: "integer"
+  hosting_name:
+    name: "hosting_name"
+    in: "path"
+    description: "Hosting account (primary domain). It can be changed."
+    required: true
+    type: "string"
+  ftp_username:
+    name: "ftp_username"
+    in: "path"
+    description: "Current FTP username"
+    required: true
+    type: "string"
+  database_name:
+    name: "database_name"
+    in: "path"
+    description: "Database name"
+    required: true
+    type: "string"
+  db_username:
+    name: "db_username"
+    in: "path"
+    description: "Database user identifier"
+    required: true
+    type: "string"
+  security_rule_id:
+    name: "rule_id"
+    in: "path"
+    description: "ip rule identifier"
+    required: true
+    type: "string"
+responses:
+  200Success:
+    description: "Success"
+    schema:
+      type: "object"
+      properties: {}
+  202Accepted:
+    description: "Request is accepted and FabricTask '_utid' is returned"
+    schema:
+      $ref: "#/definitions/FabricTask"
+  400BadRequest:
+    description: "Bad request"
+    schema:
+      $ref: "#/definitions/Error"
+  401NotAuthorized:
+    description: "Invalid authorization token"
+  404HostingNotFound:
+    description: "Hosting account not found"
+  404GenericNotFound:
+    description: "Entity not found"
+  409DuplicateHosting:
+    description: "An existing 'hosting_name' already exists"
+  409DuplicateFtpUser:
+    description: "An existing ftp 'username' already exists"
+  409DuplicateDatabase:
+    description: "An existing database 'db_name' already exists"
+  default:
+    description: "Unexpected error"
+    schema:
+      $ref: "#/definitions/Error"

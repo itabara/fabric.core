@@ -1,9 +1,11 @@
 'use strict';
 
-exports.provisioningHostingHosting_nameDELETE = function(args, res, next) {
+exports.provisioningPackagePackage_idHostingHosting_account_idDELETE = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * hosting_name (String)
+  * authorization (String)
+  * package_id (Long)
+  * hosting_account_id (Integer)
   **/
     var examples = {};
   examples['application/json'] = {
@@ -20,10 +22,12 @@ exports.provisioningHostingHosting_nameDELETE = function(args, res, next) {
   
 }
 
-exports.provisioningHostingHosting_nameDatabaseDatabase_nameGET = function(args, res, next) {
+exports.provisioningPackagePackage_idHostingHosting_account_idDatabaseDatabase_nameGET = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * hosting_name (String)
+  * authorization (String)
+  * package_id (Long)
+  * hosting_account_id (Integer)
   * database_name (String)
   **/
     var examples = {};
@@ -41,7 +45,7 @@ exports.provisioningHostingHosting_nameDatabaseDatabase_nameGET = function(args,
       "permissions" : "aeiou"
     } ],
     "password" : "aeiou",
-    "user_id" : "db-user"
+    "db_username" : "db-user"
   } ]
 };
   if(Object.keys(examples).length > 0) {
@@ -54,10 +58,12 @@ exports.provisioningHostingHosting_nameDatabaseDatabase_nameGET = function(args,
   
 }
 
-exports.provisioningHostingHosting_nameGET = function(args, res, next) {
+exports.provisioningPackagePackage_idHostingHosting_account_idGET = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * hosting_name (String)
+  * authorization (String)
+  * package_id (Long)
+  * hosting_account_id (Integer)
   **/
     var examples = {};
   examples['application/json'] = {
@@ -65,6 +71,7 @@ exports.provisioningHostingHosting_nameGET = function(args, res, next) {
   "ftp_quota" : {
     "consumed" : "",
     "max_available" : "",
+    "unlimited" : true,
     "details" : "aeiou"
   },
   "disk_quota" : "",
@@ -82,13 +89,13 @@ exports.provisioningHostingHosting_nameGET = function(args, res, next) {
   
 }
 
-exports.provisioningHostingHosting_namePUT = function(args, res, next) {
+exports.provisioningPackagePackage_idHostingHosting_account_idPUT = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * hosting_name (String)
-  * disk_quota (Integer)
-  * ftp_quota (Integer)
-  * bandwidth_quota (Integer)
+  * authorization (String)
+  * package_id (Long)
+  * hosting_account_id (Integer)
+  * hosting_info (HostingAccount)
   **/
     var examples = {};
   examples['application/json'] = {
@@ -105,16 +112,17 @@ exports.provisioningHostingHosting_namePUT = function(args, res, next) {
   
 }
 
-exports.provisioningHostingHosting_nameStatusGET = function(args, res, next) {
+exports.provisioningPackagePackage_idHostingHosting_account_idStatusGET = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * hosting_name (String)
+  * authorization (String)
+  * package_id (Long)
+  * hosting_account_id (Integer)
   **/
     var examples = {};
   examples['application/json'] = {
-  "comments" : "Enabled after successful payment",
-  "hosting_name" : "example.com",
-  "status" : "enabled"
+  "comments" : "aeiou",
+  "status" : "aeiou"
 };
   if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
@@ -126,10 +134,12 @@ exports.provisioningHostingHosting_nameStatusGET = function(args, res, next) {
   
 }
 
-exports.provisioningHostingHosting_nameStatusPUT = function(args, res, next) {
+exports.provisioningPackagePackage_idHostingHosting_account_idStatusPUT = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * hosting_name (String)
+  * authorization (String)
+  * package_id (Long)
+  * hosting_account_id (Integer)
   * status (String)
   * comments (String)
   **/
@@ -148,15 +158,12 @@ exports.provisioningHostingHosting_nameStatusPUT = function(args, res, next) {
   
 }
 
-exports.provisioningHostingPOST = function(args, res, next) {
+exports.provisioningPackagePackage_idHostingPOST = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * hosting_name (String)
-  * disk_quota (Integer)
-  * ftp_quota (Integer)
-  * bandwidth_quota (Integer)
-  * hosting_admin_email (String)
-  * region (String)
+  * authorization (String)
+  * package_id (Long)
+  * hosting_account (HostingAccount)
   **/
     var examples = {};
   examples['application/json'] = {
