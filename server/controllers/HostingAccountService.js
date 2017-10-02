@@ -140,8 +140,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idStatusPUT = functi
   * authorization (String)
   * package_id (Long)
   * hosting_account_id (Integer)
-  * status (String)
-  * comments (String)
+  * hosting_status (Hosting_status)
   **/
     var examples = {};
   examples['application/json'] = {

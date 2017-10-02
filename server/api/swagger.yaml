@@ -302,19 +302,12 @@ paths:
         description: "Hosting account unique id (PK). Cannot be changed."
         required: true
         type: "integer"
-      - name: "status"
-        in: "formData"
-        description: "change hosting account status (enable/disable)"
+      - in: "body"
+        name: "hosting_status"
+        description: "Status Change"
         required: false
-        type: "string"
-        enum:
-        - "enable"
-        - "disable"
-      - name: "comments"
-        in: "formData"
-        description: "Description/reason of change status action"
-        required: false
-        type: "string"
+        schema:
+          $ref: "#/definitions/hosting_status"
       responses:
         202:
           description: "Request is accepted and FabricTask '_utid' is returned"
@@ -2055,6 +2048,21 @@ definitions:
         type: "string"
       fields:
         type: "string"
+  hosting_status:
+    type: "object"
+    properties:
+      status_change:
+        type: "string"
+        description: "status"
+        enum:
+        - "enable"
+        - "disable"
+      comments:
+        type: "string"
+        description: "additional comments"
+    example:
+      status_change: "disable"
+      comments: "not paid enough"
   ftpUserCreate:
     type: "object"
     properties:
