@@ -21,7 +21,6 @@ schemes:
 - "http"
 consumes:
 - "application/json"
-- "application/x-www-form-urlencoded"
 produces:
 - "application/json"
 paths:
@@ -305,7 +304,7 @@ paths:
       - in: "body"
         name: "hosting_status"
         description: "Status Change"
-        required: false
+        required: true
         schema:
           $ref: "#/definitions/hosting_status"
       responses:
@@ -1716,7 +1715,9 @@ paths:
           $ref: "#/definitions/iisSettingsUpdate"
       responses:
         202:
-          $ref: "#/responses/#responses/202Accepted"
+          description: "Request is accepted and FabricTask '_utid' is returned"
+          schema:
+            $ref: "#/definitions/FabricTask"
         400:
           description: "Bad request"
           schema:
@@ -2292,12 +2293,6 @@ parameters:
     description: "Hosting account unique id (PK). Cannot be changed."
     required: true
     type: "integer"
-  hosting_name:
-    name: "hosting_name"
-    in: "path"
-    description: "Hosting account (primary domain). It can be changed."
-    required: true
-    type: "string"
   ftp_username:
     name: "ftp_username"
     in: "path"
@@ -2323,11 +2318,6 @@ parameters:
     required: true
     type: "string"
 responses:
-  200Success:
-    description: "Success"
-    schema:
-      type: "object"
-      properties: {}
   202Accepted:
     description: "Request is accepted and FabricTask '_utid' is returned"
     schema:
@@ -2340,8 +2330,6 @@ responses:
     description: "Invalid authorization token"
   404HostingNotFound:
     description: "Hosting account not found"
-  404GenericNotFound:
-    description: "Entity not found"
   409DuplicateHosting:
     description: "An existing 'hosting_name' already exists"
   409DuplicateFtpUser:

@@ -32,8 +32,19 @@ exports.provisioningPackagePackage_idHostingHosting_account_idIis_settingsPUT = 
   * hosting_account_id (Integer)
   * iisSettingsUpdate (IisSettingsUpdate)
   **/
-  // no response value expected for this operation
-  res.end();
+    var examples = {};
+  examples['application/json'] = {
+  "_utid" : "d290f1ee-6c54-4b01-90e6-d701748f0851",
+  "status" : "pending"
+};
+  if(Object.keys(examples).length > 0) {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
 exports.provisioningPackagePackage_idHostingHosting_account_idLsDepthGET = function(args, res, next) {
