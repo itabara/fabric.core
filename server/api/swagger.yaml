@@ -21,7 +21,6 @@ schemes:
 - "http"
 consumes:
 - "application/json"
-- "application/x-www-form-urlencoded"
 produces:
 - "application/json"
 paths:
@@ -302,19 +301,12 @@ paths:
         description: "Hosting account unique id (PK). Cannot be changed."
         required: true
         type: "integer"
-      - name: "status"
-        in: "formData"
-        description: "change hosting account status (enable/disable)"
-        required: false
-        type: "string"
-        enum:
-        - "enable"
-        - "disable"
-      - name: "comments"
-        in: "formData"
-        description: "Description/reason of change status action"
-        required: false
-        type: "string"
+      - in: "body"
+        name: "hosting_status"
+        description: "Status Change"
+        required: true
+        schema:
+          $ref: "#/definitions/hosting_status"
       responses:
         202:
           description: "Request is accepted and FabricTask '_utid' is returned"
@@ -1723,7 +1715,9 @@ paths:
           $ref: "#/definitions/iisSettingsUpdate"
       responses:
         202:
-          $ref: "#/responses/#responses/202Accepted"
+          description: "Request is accepted and FabricTask '_utid' is returned"
+          schema:
+            $ref: "#/definitions/FabricTask"
         400:
           description: "Bad request"
           schema:
@@ -2055,6 +2049,21 @@ definitions:
         type: "string"
       fields:
         type: "string"
+  hosting_status:
+    type: "object"
+    properties:
+      status_change:
+        type: "string"
+        description: "status"
+        enum:
+        - "enable"
+        - "disable"
+      comments:
+        type: "string"
+        description: "additional comments"
+    example:
+      status_change: "disable"
+      comments: "not paid enough"
   ftpUserCreate:
     type: "object"
     properties:
@@ -2284,12 +2293,6 @@ parameters:
     description: "Hosting account unique id (PK). Cannot be changed."
     required: true
     type: "integer"
-  hosting_name:
-    name: "hosting_name"
-    in: "path"
-    description: "Hosting account (primary domain). It can be changed."
-    required: true
-    type: "string"
   ftp_username:
     name: "ftp_username"
     in: "path"
@@ -2315,11 +2318,6 @@ parameters:
     required: true
     type: "string"
 responses:
-  200Success:
-    description: "Success"
-    schema:
-      type: "object"
-      properties: {}
   202Accepted:
     description: "Request is accepted and FabricTask '_utid' is returned"
     schema:
@@ -2332,8 +2330,6 @@ responses:
     description: "Invalid authorization token"
   404HostingNotFound:
     description: "Hosting account not found"
-  404GenericNotFound:
-    description: "Entity not found"
   409DuplicateHosting:
     description: "An existing 'hosting_name' already exists"
   409DuplicateFtpUser:
