@@ -1785,12 +1785,24 @@ definitions:
         type: "string"
         description: "Allow region of provisioning"
     example:
-      default: "{\n  \"package_id\": \"100001\",\n  \"disk_quota\": {\n    \"max_available\"\
-        : 10240,\n    \"details\": \"MB\"\n  },\n  \"ftp_quota\": {\n    \"max_available\"\
-        : 5,\n    \"details\": \"count\"\n  },\n  \"bandwidth_quota\": {\n    \"unlimited\"\
-        : true,\n    \"details\": \"MB\"\n  },\n  \"db_quota\": {\n    \"max_available\"\
-        : 10,\n    \"details\": \"count\"\n  },\n  \"db_max_size\": {\n    \"max_available\"\
-        : 1024,\n    \"details\": \"MB\"\n  },\n  region: 'Europe'\n}"
+      default:
+        package_id: "100001"
+        disk_quota:
+          max_available: 10240
+          details: "MB"
+        ftp_quota:
+          max_available: 5
+          details: "count"
+        bandwidth_quota:
+          unlimited: true
+          details: "MB"
+        db_quota:
+          max_available: 10
+          details: "count"
+        db_max_size:
+          max_available: 1024
+          details: "MB"
+        region: "Europe"
   HostingAccount:
     type: "object"
     required:
