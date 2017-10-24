@@ -75,9 +75,9 @@ exports.provisioningPackagePackage_idHostingHosting_account_idGET = function(arg
     "details" : "aeiou"
   },
   "disk_quota" : "",
-  "hosting_account_id" : 1234567,
+  "hosting_account_id" : "sid_1234567",
   "stats_json_url" : "aeiou",
-  "hosting_name" : "example.com"
+  "hosting_name" : "tw94wb-232221.atlas-hosting.com"
 };
   if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
