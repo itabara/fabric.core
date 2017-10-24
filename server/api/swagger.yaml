@@ -1812,7 +1812,6 @@ definitions:
         type: "string"
         example: "sid_1234567"
         description: "hosting_acount_id (PK), unique, max 11 chars"
-        readOnly: true
       hosting_name:
         type: "string"
         example: "tw94wb-232221.atlas-hosting.com"
