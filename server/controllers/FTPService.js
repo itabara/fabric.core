@@ -5,7 +5,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idFtpFtp_usernameDEL
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   * ftp_username (String)
   **/
     var examples = {};
@@ -28,7 +28,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idFtpFtp_usernameGET
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   * ftp_username (String)
   **/
     var examples = {};
@@ -53,7 +53,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idFtpFtp_usernamePUT
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   * ftp_username (String)
   * ftpUserUpdate (FtpUserUpdate)
   **/
@@ -77,7 +77,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idFtpGET = function(
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   **/
     var examples = {};
   examples['application/json'] = [ {
@@ -101,7 +101,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idFtpPOST = function
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   * ftpUserCreate (FtpUserCreate)
   **/
     var examples = {};

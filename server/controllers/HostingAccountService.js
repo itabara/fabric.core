@@ -5,7 +5,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idDELETE = function(
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   **/
     var examples = {};
   examples['application/json'] = {
@@ -27,7 +27,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idDatabaseDatabase_n
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   * database_name (String)
   **/
     var examples = {};
@@ -63,7 +63,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idGET = function(arg
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   **/
     var examples = {};
   examples['application/json'] = {
@@ -94,7 +94,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idPUT = function(arg
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   * hosting_info (HostingAccount)
   **/
     var examples = {};
@@ -117,7 +117,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idStatusGET = functi
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   **/
     var examples = {};
   examples['application/json'] = {
@@ -139,7 +139,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idStatusPUT = functi
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   * hosting_status (Hosting_status)
   **/
     var examples = {};

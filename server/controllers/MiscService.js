@@ -5,7 +5,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idIis_settingsGET = 
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   **/
     var examples = {};
   examples['application/json'] = {
@@ -29,7 +29,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idIis_settingsPUT = 
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   * iisSettingsUpdate (IisSettingsUpdate)
   **/
     var examples = {};
@@ -52,7 +52,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idLsDepthGET = funct
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   * depth (Integer)
   **/
     var examples = {};
@@ -72,7 +72,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idSecurityAccessGET 
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   **/
     var examples = {};
   examples['application/json'] = [ {
@@ -95,7 +95,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idSecurityAccessPOST
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   * securityRuleCreate (SecurityRuleCreate)
   **/
     var examples = {};
@@ -118,7 +118,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idSecurityAccessRule
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   * rule_id (String)
   **/
     var examples = {};
@@ -141,7 +141,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idSecurityAccessRule
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   * rule_id (String)
   * securityRuleUpdate (SecurityRuleUpdate)
   **/

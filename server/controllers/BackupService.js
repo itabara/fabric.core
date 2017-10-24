@@ -5,7 +5,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idBackupGET = functi
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   **/
     var examples = {};
   examples['application/json'] = {
@@ -29,7 +29,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idBackupPOST = funct
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   * backupSource (BackupSource)
   **/
     var examples = {};
@@ -52,7 +52,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idRestoreGET = funct
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   **/
     var examples = {};
   examples['application/json'] = {
@@ -77,7 +77,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idRestorePOST = func
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   * webspaceRestore (WebspaceRestore)
   **/
     var examples = {};

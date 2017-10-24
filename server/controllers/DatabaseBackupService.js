@@ -5,7 +5,7 @@ exports.backupDatabase = function(args, res, next) {
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   * database_name (String)
   **/
     var examples = {};
@@ -28,7 +28,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idDatabaseDatabase_n
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   * database_name (String)
   **/
     var examples = {};
@@ -53,7 +53,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idDatabaseDatabase_n
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   * database_name (String)
   **/
     var examples = {};
@@ -79,7 +79,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idDatabaseDatabase_n
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   * database_name (String)
   * databaseRestore (DatabaseRestore)
   **/

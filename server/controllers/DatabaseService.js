@@ -5,7 +5,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idDatabaseDatabase_n
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   * database_name (String)
   **/
     var examples = {};
@@ -28,7 +28,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idDatabaseDatabase_n
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   * database_name (String)
   * databaseUpdate (DatabaseUpdate)
   **/
@@ -52,7 +52,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idDatabaseGET = func
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   **/
     var examples = {};
   examples['application/json'] = [ {
@@ -87,7 +87,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idDatabasePOST = fun
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   * databaseCreate (DatabaseCreate)
   **/
     var examples = {};
@@ -110,7 +110,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idDatabaseUserDb_use
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   * db_username (String)
   **/
     var examples = {};
@@ -133,7 +133,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idDatabaseUserDb_use
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   * db_username (String)
   **/
     var examples = {};
@@ -160,7 +160,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idDatabaseUserDb_use
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   * db_username (String)
   * databaseUserUpdate (DatabaseUserUpdate)
   **/
@@ -184,7 +184,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idDatabaseUserGET = 
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   **/
     var examples = {};
   examples['application/json'] = [ {
@@ -210,7 +210,7 @@ exports.provisioningPackagePackage_idHostingHosting_account_idDatabaseUserPOST =
    * parameters expected in the args:
   * authorization (String)
   * package_id (Long)
-  * hosting_account_id (Integer)
+  * hosting_account_id (String)
   * databaseUserCreate (DatabaseUserCreate)
   **/
     var examples = {};
