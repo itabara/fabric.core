@@ -1781,6 +1781,9 @@ definitions:
         $ref: "#/definitions/QuotaInfo"
       db_max_size:
         $ref: "#/definitions/QuotaInfo"
+      brand_id:
+        type: "string"
+        description: "Brand identifier/name"
       region:
         type: "string"
         description: "Allow region of provisioning"
@@ -1802,6 +1805,7 @@ definitions:
         max_available: 1024
         details: "MB"
       region: "Europe"
+      brand_id: "ott"
   HostingAccount:
     type: "object"
     required:
